@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "EYpy5zLenZpG/1rlcJPCjne+2j90xTr1d250Nu0vqd2y02UStX0pX2liqkGq13BHazfuJYV717IZmD6awcyZ+Q==",
+  "dgSpecHash": "J8/j0p2Hxkw=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Anders\\RiderProjects\\DevOpsCalculator\\DevOpsCalculator\\DevOpsCalculator.csproj",
+  "projectFilePath": "C:\\Users\\Anders\\RiderProjects\\CalculatorDevOps\\DevOpsCalculator\\DevOpsCalculator.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Anders\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\Anders\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

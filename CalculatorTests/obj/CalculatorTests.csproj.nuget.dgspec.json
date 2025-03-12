@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Anders\\RiderProjects\\DevOpsCalculator\\CalculatorTests\\CalculatorTests.csproj": {}
+    "C:\\Users\\Anders\\RiderProjects\\CalculatorDevOps\\CalculatorTests\\CalculatorTests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Anders\\RiderProjects\\DevOpsCalculator\\CalculatorTests\\CalculatorTests.csproj": {
+    "C:\\Users\\Anders\\RiderProjects\\CalculatorDevOps\\CalculatorTests\\CalculatorTests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Anders\\RiderProjects\\DevOpsCalculator\\CalculatorTests\\CalculatorTests.csproj",
+        "projectUniqueName": "C:\\Users\\Anders\\RiderProjects\\CalculatorDevOps\\CalculatorTests\\CalculatorTests.csproj",
         "projectName": "CalculatorTests",
-        "projectPath": "C:\\Users\\Anders\\RiderProjects\\DevOpsCalculator\\CalculatorTests\\CalculatorTests.csproj",
+        "projectPath": "C:\\Users\\Anders\\RiderProjects\\CalculatorDevOps\\CalculatorTests\\CalculatorTests.csproj",
         "packagesPath": "C:\\Users\\Anders\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Anders\\RiderProjects\\DevOpsCalculator\\CalculatorTests\\obj\\",
+        "outputPath": "C:\\Users\\Anders\\RiderProjects\\CalculatorDevOps\\CalculatorTests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Anders\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -28,8 +28,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Anders\\RiderProjects\\DevOpsCalculator\\DevOpsCalculator\\DevOpsCalculator.csproj": {
-                "projectPath": "C:\\Users\\Anders\\RiderProjects\\DevOpsCalculator\\DevOpsCalculator\\DevOpsCalculator.csproj"
+              "C:\\Users\\Anders\\RiderProjects\\CalculatorDevOps\\DevOpsCalculator\\DevOpsCalculator.csproj": {
+                "projectPath": "C:\\Users\\Anders\\RiderProjects\\CalculatorDevOps\\DevOpsCalculator\\DevOpsCalculator.csproj"
               }
             }
           }
@@ -38,6 +38,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -89,18 +94,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Anders\\RiderProjects\\DevOpsCalculator\\DevOpsCalculator\\DevOpsCalculator.csproj": {
+    "C:\\Users\\Anders\\RiderProjects\\CalculatorDevOps\\DevOpsCalculator\\DevOpsCalculator.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Anders\\RiderProjects\\DevOpsCalculator\\DevOpsCalculator\\DevOpsCalculator.csproj",
+        "projectUniqueName": "C:\\Users\\Anders\\RiderProjects\\CalculatorDevOps\\DevOpsCalculator\\DevOpsCalculator.csproj",
         "projectName": "DevOpsCalculator",
-        "projectPath": "C:\\Users\\Anders\\RiderProjects\\DevOpsCalculator\\DevOpsCalculator\\DevOpsCalculator.csproj",
+        "projectPath": "C:\\Users\\Anders\\RiderProjects\\CalculatorDevOps\\DevOpsCalculator\\DevOpsCalculator.csproj",
         "packagesPath": "C:\\Users\\Anders\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Anders\\RiderProjects\\DevOpsCalculator\\DevOpsCalculator\\obj\\",
+        "outputPath": "C:\\Users\\Anders\\RiderProjects\\CalculatorDevOps\\DevOpsCalculator\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Anders\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -123,6 +128,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -171,7 +181,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
