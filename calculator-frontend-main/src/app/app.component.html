@@ -1,0 +1,53 @@
+<div class="Main">
+  <div id="grid1">
+    <h1>Calculator</h1>
+    <div>
+      <label class="RadioLabel">
+        <input class="Radio" type="radio" name="mode" [(ngModel)]="isCached" [value]="false"> Simple Calculator
+      </label>
+      <label class="RadioLabel">
+        <input class="Radio" type="radio" name="mode" [(ngModel)]="isCached" [value]="true"> Cached Calculator
+      </label>
+    </div>
+
+    <div>
+      <input class="NumberInput" type="number" [(ngModel)]="number1" placeholder="Enter first number">
+      <input class="NumberInput" type="number" [(ngModel)]="number2" placeholder="Enter second number">
+    </div>
+
+    <div>
+      <select class="Select1" [(ngModel)]="selectedOperation">
+        <option value="add">Add</option>
+        <option value="subtract">Subtract</option>
+        <option value="multiply">Multiply</option>
+        <option value="divide">Divide</option>
+      </select>
+      <button class="Calculate" (click)="calculate(selectedOperation)">Calculate</button>
+    </div>
+
+    <div>
+      <h2>The result is: {{ result }}</h2>
+    </div>
+
+    <h2 class="ExtraH2">Check if a number is a prime number</h2>
+    <div>
+      <input class="NumberInput" type="number" [(ngModel)]="primeNumber" placeholder="Enter a number">
+      <button class="Calculate" (click)="checkPrime()">Check</button>
+    </div>
+
+    <h2 class="ExtraH2">Calculate the factorial of a number</h2>
+    <div>
+      <input class="NumberInput" type="number" [(ngModel)]="factorialNumber" placeholder="Enter a number">
+      <button class="Calculate" (click)="calculateFactorial()">Check</button>
+    </div>
+  </div>
+
+  <div id="grid2">
+    <h2 class="ExtraH2">History</h2>
+    <div class="HistoryBox">
+      <ul>
+        <li *ngFor="let entry of history">{{ entry }}</li>
+      </ul>
+    </div>
+  </div>
+</div>

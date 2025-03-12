@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "Y8YycH31+64+hmu6ZO61z02SY7efa/G9KDv3m2+wPdo=",
+  "Source": "DevOpsCalculator",
+  "BasePath": "_content/DevOpsCalculator",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

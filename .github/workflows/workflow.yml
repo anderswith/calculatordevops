@@ -1,0 +1,63 @@
+name: Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update-config:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install required tools
+        run: |
+          dotnet tool install --global dotnet-reportgenerator-globaltool
+          dotnet tool install --global dotnet-stryker
+
+      - name: Set SQL Connection String
+        run: |
+          echo "SQL_CONNECTION_STRING=${{ secrets.SQL_CONNECTION_STRING }}" >> $GITHUB_ENV
+
+      - name: Verify SQL Connection String
+        run: echo $SQL_CONNECTION_STRING
+
+      - name: Application Version
+        id: semver-app
+        uses: paulhatch/semantic-version@v5.4.0
+        with:
+          bump_each_commit: true
+          bump_each_commit_patch_pattern: 'bugfix'
+
+      - name: Display Version
+        run: echo "Generated version is ${{ steps.semver-app.outputs.version}}"
+
+      - name: Run unit tests
+        run: |
+          dotnet test --collect:"XPlat Code Coverage" --results-directory coverage
+
+      - name: Generate report
+        run: |
+          reportgenerator -reports:"TestResults/**/coverage.cobertura.xml" -targetdir:coverage-report -reporttypes:Html
+
+      - name: Run Mutation Tests
+        run: |
+          dotnet stryker --threshold-high 80
+
+      - name: Collect Coverage Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/**/coverage.cobertura.xml
+
+      - name: Collect Stryker Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stryker-report
+          path: StrykerOutput
+       
