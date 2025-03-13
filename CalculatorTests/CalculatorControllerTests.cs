@@ -30,6 +30,7 @@ namespace DevOpsCalculator.Tests
         [Test]
         public void GetCachedResult_ReturnsNotFound_WhenCachedResultIsNull()
         {
+            var expected = "No cached result found.";
             // Arrange: Mock cached result to return null
             _mockCachedCalculator.Setup(c => c.GetCachedResult<int>(It.IsAny<int>(), It.IsAny<int?>(), It.IsAny<string>()))
                 .Returns((CachedCalculator.Calculation<int>)null);
@@ -39,12 +40,13 @@ namespace DevOpsCalculator.Tests
 
             // Assert
             var actionResult = result.Result as NotFoundObjectResult;
-            Assert.AreEqual("No cached result found.", actionResult.Value);
+            Assert.That(expected, Is.EqualTo(actionResult.Value));
         }
 
         [Test]
         public void GetCachedResult_ReturnsOk_WhenCachedResultIsFound()
         {
+            
             // Arrange: Mock a valid cached result
             var cachedResult = new CachedCalculator.Calculation<int>(1, "add", 3, 2);
             _mockCachedCalculator.Setup(c => c.GetCachedResult<int>(It.IsAny<int>(), It.IsAny<int?>(), It.IsAny<string>()))
@@ -55,7 +57,7 @@ namespace DevOpsCalculator.Tests
 
             // Assert
             var actionResult = result.Result as OkObjectResult;
-            Assert.AreEqual(cachedResult, actionResult.Value);
+            Assert.That(cachedResult, Is.EqualTo(actionResult.Value));
         }
 
         [Test]
@@ -71,12 +73,13 @@ namespace DevOpsCalculator.Tests
 
             // Assert
             var actionResult = result as OkObjectResult;
-            Assert.AreEqual(calculations, actionResult.Value);
+            Assert.That(calculations, Is.EqualTo(actionResult.Value));
         }
 
         [Test]
         public void CalculateAdd_ReturnsOk_WhenModelIsValid()
         {
+            var expected = 5;
             // Arrange: Mock calculator to return a valid result
             var input = new CalculationInput { A = 3, B = 2 };
             _mockCalculator.Setup(c => c.Add(input.A, input.B)).Returns(5);
@@ -86,12 +89,13 @@ namespace DevOpsCalculator.Tests
 
             // Assert
             var actionResult = result as OkObjectResult;
-            Assert.AreEqual(5, actionResult.Value);
+            Assert.That(expected, Is.EqualTo(actionResult.Value));
         }
 
         [Test]
         public void CalculateAdd_ReturnsOkResult_WhenModelIsValid()
         {
+            var expected = 15;
             // Arrange: Create a valid CalculationInput model
             var input = new CalculationInput { A = 5, B = 10 };
 
@@ -106,13 +110,14 @@ namespace DevOpsCalculator.Tests
             Assert.IsNotNull(okResult, "Expected OkObjectResult, but the result is null.");
 
             // Assert: Check that the result value is 15 (the expected sum)
-            Assert.AreEqual(15, okResult?.Value);
+            Assert.That(expected, Is.EqualTo(okResult?.Value));
         }
         
 
         [Test]
         public void CalculateSubtract_ReturnsOk_WhenModelIsValid()
         {
+            var expected = 1;
             // Arrange: Mock calculator to return a valid result
             var input = new CalculationInput { A = 3, B = 2 };
             _mockCalculator.Setup(c => c.Subtract(input.A, input.B)).Returns(1);
@@ -122,12 +127,13 @@ namespace DevOpsCalculator.Tests
 
             // Assert
             var actionResult = result as OkObjectResult;
-            Assert.AreEqual(1, actionResult.Value);
+            Assert.That(expected, Is.EqualTo(actionResult.Value));
         }
 
         [Test]
         public void CalculateMultiply_ReturnsOk_WhenModelIsValid()
         {
+            var expected = 6;
             // Arrange: Mock calculator to return a valid result
             var input = new CalculationInput { A = 3, B = 2 };
             _mockCalculator.Setup(c => c.Multiply(input.A, input.B)).Returns(6);
@@ -137,12 +143,13 @@ namespace DevOpsCalculator.Tests
 
             // Assert
             var actionResult = result as OkObjectResult;
-            Assert.AreEqual(6, actionResult.Value);
+            Assert.That(expected, Is.EqualTo(actionResult.Value));
         }
 
         [Test]
         public void CalculateDivide_ReturnsOk_WhenModelIsValid()
         {
+            var expected = 3;
             // Arrange: Mock calculator to return a valid result
             var input = new CalculationInput { A = 6, B = 2 };
             _mockCalculator.Setup(c => c.Divide(input.A, input.B)).Returns(3);
@@ -152,12 +159,13 @@ namespace DevOpsCalculator.Tests
 
             // Assert
             var actionResult = result as OkObjectResult;
-            Assert.AreEqual(3, actionResult.Value);
+            Assert.That(expected, Is.EqualTo(actionResult.Value));
         }
 
         [Test]
         public void CalculateFactorial_ReturnsOk_WhenModelIsValid()
         {
+            var expected = 120;
             // Arrange: Mock calculator to return a valid result
             var input = new FactorialInput { N = 5 };
             _mockCalculator.Setup(c => c.Factorial(input.N)).Returns(120);
@@ -167,7 +175,7 @@ namespace DevOpsCalculator.Tests
 
             // Assert
             var actionResult = result as OkObjectResult;
-            Assert.AreEqual(120, actionResult.Value);
+            Assert.That(expected, Is.EqualTo(actionResult.Value));
         }
 
         [Test]
@@ -188,113 +196,103 @@ namespace DevOpsCalculator.Tests
             
         }
         [Test]
-        public void CalculateAdd_ReturnsBadRequest_WhenModelIsInvalid()
-        {
-            // Arrange: Create an invalid CalculationInput model (missing A and B)
-            var input = new CalculationInput();
-            _controller.ModelState.AddModelError("A", "A is required");
-            _controller.ModelState.AddModelError("B", "B is required");
-
-            // Act: Call the CalculateAdd method with the invalid model
-            var result = _controller.CalculateAdd(input);
-
-            // Assert: Ensure the result is BadRequest
-            var badRequestResult = result as BadRequestObjectResult;
-            Assert.IsNotNull(badRequestResult);
-            Assert.IsTrue(badRequestResult.Value is SerializableError);
-        }
-
-        // Test for CalculateSubtract with invalid model
-        [Test]
-        public void CalculateSubtract_ReturnsBadRequest_WhenModelIsInvalid()
-        {
-            var input = new CalculationInput();
-            _controller.ModelState.AddModelError("A", "A is required");
-            _controller.ModelState.AddModelError("B", "B is required");
-
-            var result = _controller.CalculateSubtract(input);
-
-            var badRequestResult = result as BadRequestObjectResult;
-            Assert.IsNotNull(badRequestResult);
-            Assert.IsTrue(badRequestResult.Value is SerializableError);
-        }
-
-        // Test for CalculateMultiply with invalid model
-        [Test]
-        public void CalculateMultiply_ReturnsBadRequest_WhenModelIsInvalid()
-        {
-            var input = new CalculationInput();
-            _controller.ModelState.AddModelError("A", "A is required");
-            _controller.ModelState.AddModelError("B", "B is required");
-
-            var result = _controller.CalculateMultiply(input);
-
-            var badRequestResult = result as BadRequestObjectResult;
-            Assert.IsNotNull(badRequestResult);
-            Assert.IsTrue(badRequestResult.Value is SerializableError);
-        }
-
-        // Test for CalculateDivide with invalid model
-        [Test]
-        public void CalculateDivide_ReturnsBadRequest_WhenModelIsInvalid()
-        {
-            var input = new CalculationInput();
-            _controller.ModelState.AddModelError("A", "A is required");
-            _controller.ModelState.AddModelError("B", "B is required");
-
-            var result = _controller.CalculateDivide(input);
-
-            var badRequestResult = result as BadRequestObjectResult;
-            Assert.IsNotNull(badRequestResult);
-            Assert.IsTrue(badRequestResult.Value is SerializableError);
-        }
-
-        // Test for CalculateFactorial with invalid model
-        [Test]
-        public void CalculateFactorial_ReturnsBadRequest_WhenModelIsInvalid()
-        {
-            var input = new FactorialInput();
-            _controller.ModelState.AddModelError("N", "N is required");
-
-            var result = _controller.CalculateFactorial(input);
-
-            var badRequestResult = result as BadRequestObjectResult;
-            Assert.IsNotNull(badRequestResult);
-            Assert.IsTrue(badRequestResult.Value is SerializableError);
-        }
-
-        // Test for CalculateIsPrime with invalid model
-        [Test]
-        public void CalculateIsPrime_ReturnsBadRequest_WhenModelIsInvalid()
-        {
-            var input = new PrimeCheckInput();
-            _controller.ModelState.AddModelError("Candidate", "Candidate is required");
-
-            var result = _controller.CalculateIsPrime(input);
-
-            var badRequestResult = result as BadRequestObjectResult;
-            Assert.IsNotNull(badRequestResult);
-            Assert.IsTrue(badRequestResult.Value is SerializableError);
-        }
-
-        // Test for GetCachedResult with invalid query parameters
-        [Test]
         public void GetCachedResult_ReturnsBadRequest_WhenModelIsInvalid()
         {
             // Arrange: Simulate an invalid query by passing `null` values for required parameters
-            // or invalid parameters to the `GetCachedResult` action.
-            // In this case, we're passing `null` for the required `operation`.
             var result = _controller.GetCachedResult(1, null, null);
 
             // Act: The result should be a BadRequestObjectResult if the model is invalid
             var badRequestResult = result.Result as BadRequestObjectResult;
 
-            // Assert: The result should be BadRequest and contain the ModelState errors
-            Assert.IsNotNull(badRequestResult);
-            Assert.IsTrue(badRequestResult.Value is SerializableError);
+            // Assert: Ensure the result is not null and the value is of type SerializableError
+            Assert.That(badRequestResult, Is.Not.Null);
+            Assert.That(badRequestResult?.Value, Is.TypeOf<SerializableError>());
+        }
+
+        [Test]
+        public void Calculations_ReturnsBadRequest_WhenModelIsInvalid()
+        {
+            _controller.ModelState.AddModelError("A", "A is required");
+
+            var result = _controller.Calculations();
+
+            var badRequestResult = result as BadRequestObjectResult;
+
+            // Assert: Ensure the result is not null and the value is of type SerializableError
+            Assert.That(badRequestResult, Is.Not.Null);
+            Assert.That(badRequestResult?.Value, Is.TypeOf<SerializableError>());
+        }
+
+        [Test]
+        public void CalculateAdd_ReturnsBadRequest_WhenModelIsInvalid()
+        {
+            _controller.ModelState.AddModelError("A", "A is required");
+
+            var result = _controller.CalculateAdd(new CalculationInput());
+
+            var badRequestResult = result as BadRequestObjectResult;
+
+            // Assert: Ensure the result is not null and the value is of type SerializableError
+            Assert.That(badRequestResult, Is.Not.Null);
+            Assert.That(badRequestResult?.Value, Is.TypeOf<SerializableError>());
+        }
+
+        [Test]
+        public void CalculateMultiply_ReturnsBadRequest_WhenModelIsInvalid()
+        {
+            _controller.ModelState.AddModelError("A", "A is required");
+
+            var result = _controller.CalculateMultiply(new CalculationInput());
+
+            var badRequestResult = result as BadRequestObjectResult;
+
+            // Assert: Ensure the result is not null and the value is of type SerializableError
+            Assert.That(badRequestResult, Is.Not.Null);
+            Assert.That(badRequestResult?.Value, Is.TypeOf<SerializableError>());
+        }
+
+        [Test]
+        public void CalculateDivide_ReturnsBadRequest_WhenModelIsInvalid()
+        {
+            _controller.ModelState.AddModelError("A", "A is required");
+
+            var result = _controller.CalculateDivide(new CalculationInput());
+
+            var badRequestResult = result as BadRequestObjectResult;
+
+            // Assert: Ensure the result is not null and the value is of type SerializableError
+            Assert.That(badRequestResult, Is.Not.Null);
+            Assert.That(badRequestResult?.Value, Is.TypeOf<SerializableError>());
+        }
+
+        [Test]
+        public void CalculateFactorial_ReturnsBadRequest_WhenModelIsInvalid()
+        {
+            _controller.ModelState.AddModelError("N", "N is required");
+
+            var result = _controller.CalculateFactorial(new FactorialInput());
+
+            var badRequestResult = result as BadRequestObjectResult;
+
+            // Assert: Ensure the result is not null and the value is of type SerializableError
+            Assert.That(badRequestResult, Is.Not.Null);
+            Assert.That(badRequestResult?.Value, Is.TypeOf<SerializableError>());
+        }
+
+        [Test]
+        public void CalculateIsPrime_ReturnsBadRequest_WhenModelIsInvalid()
+        {
+            _controller.ModelState.AddModelError("Candidate", "Candidate is required");
+
+            var result = _controller.CalculateIsPrime(new PrimeCheckInput());
+
+            var badRequestResult = result as BadRequestObjectResult;
+
+            // Assert: Ensure the result is not null and the value is of type SerializableError
+            Assert.That(badRequestResult, Is.Not.Null);
+            Assert.That(badRequestResult?.Value, Is.TypeOf<SerializableError>());
         }
         
-
     }
 }
 
