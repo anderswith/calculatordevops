@@ -1,3 +1,4 @@
+using DevOpsCalculator.BE;
 using DevOpsCalculator.BLL;
 using DevOpsCalculator.BLL.Interfaces;
 using DevOpsCalculator.DAL.Repositories.interfaces;
@@ -30,6 +31,7 @@ public class CalculatorController : ControllerBase
 
         return Ok(cachedResult);
     }
+    
     [HttpGet("[action]")]
     public IActionResult Calculations()
     {
@@ -37,44 +39,81 @@ public class CalculatorController : ControllerBase
         return Ok(calculations);
     }
 
+    // POST method for adding numbers
     [HttpPost("[action]")]
-    public IActionResult CalculateAdd(int a, int b)
+    public IActionResult CalculateAdd([FromBody] CalculationInput input)
     {
-        var result = _calculator.Add(a, b);
-        return Ok(result);
-    }
-    [HttpPost("[action]")]
-    public IActionResult CalculateSubtract(int a, int b)
-    {
-        var result = _calculator.Subtract(a, b);
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var result = _calculator.Add(input.A, input.B);
         return Ok(result);
     }
 
+    // POST method for subtracting numbers
     [HttpPost("[action]")]
-    public IActionResult CalculateMultiply(int a, int b)
+    public IActionResult CalculateSubtract([FromBody] CalculationInput input)
     {
-        var result = _calculator.Multiply(a, b);
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var result = _calculator.Subtract(input.A, input.B);
         return Ok(result);
     }
 
+    // POST method for multiplying numbers
     [HttpPost("[action]")]
-    public IActionResult CalculateDivide(int a, int b)
+    public IActionResult CalculateMultiply([FromBody] CalculationInput input)
     {
-        var result = _calculator.Divide(a, b);
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var result = _calculator.Multiply(input.A, input.B);
         return Ok(result);
     }
 
+    // POST method for dividing numbers
     [HttpPost("[action]")]
-    public IActionResult CalculateFactorial(int n)
+    public IActionResult CalculateDivide([FromBody] CalculationInput input)
     {
-        var result = _calculator.Factorial(n);
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var result = _calculator.Divide(input.A, input.B);
         return Ok(result);
     }
 
+    // POST method for calculating factorial
     [HttpPost("[action]")]
-    public IActionResult CalculateIsPrime(int candidate)
+    public IActionResult CalculateFactorial([FromBody] FactorialInput input)
     {
-        var result = _calculator.IsPrime(candidate);
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var result = _calculator.Factorial(input.N);
+        return Ok(result);
+    }
+
+    // POST method for checking prime number
+    [HttpPost("[action]")]
+    public IActionResult CalculateIsPrime([FromBody] PrimeCheckInput input)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var result = _calculator.IsPrime(input.Candidate);
         return Ok(result);
     }
     

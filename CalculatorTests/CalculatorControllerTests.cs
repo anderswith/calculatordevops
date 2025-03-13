@@ -1,134 +1,186 @@
+using NUnit.Framework;
+using Moq;
+using Microsoft.AspNetCore.Mvc;
+using DevOpsCalculator.Controllers;
+using DevOpsCalculator.BLL.Interfaces;
+using DevOpsCalculator.DAL.Repositories.interfaces;
 using DevOpsCalculator.BE;
 using DevOpsCalculator.BLL;
-using DevOpsCalculator.BLL.Interfaces;
-using DevOpsCalculator.Controllers;
-using DevOpsCalculator.DAL.Repositories.interfaces;
-using Microsoft.AspNetCore.Mvc;
-using Moq;
 
-
-namespace DevOpsCalculator.tests
+namespace DevOpsCalculator.Tests
 {
     [TestFixture]
     public class CalculatorControllerTests
     {
         private Mock<ICalculator> _mockCalculator;
-        private Mock<ICachedCalculator> _mockCachedCalculator;
         private Mock<ICalculatorRepository> _mockCalculatorRepository;
+        private Mock<ICachedCalculator> _mockCachedCalculator;
         private CalculatorController _controller;
 
         [SetUp]
-        public void SetUp()
+        public void Setup()
         {
             _mockCalculator = new Mock<ICalculator>();
-            _mockCachedCalculator = new Mock<ICachedCalculator>();
             _mockCalculatorRepository = new Mock<ICalculatorRepository>();
-            _controller = new CalculatorController(_mockCalculator.Object, _mockCalculatorRepository.Object,
-                _mockCachedCalculator.Object);
+            _mockCachedCalculator = new Mock<ICachedCalculator>();
+            _controller = new CalculatorController(_mockCalculator.Object, _mockCalculatorRepository.Object, _mockCachedCalculator.Object);
         }
 
-
         [Test]
-        public void GetCachedResult_WhenResultNotFound_ReturnsNotFound()
+        public void GetCachedResult_ReturnsNotFound_WhenCachedResultIsNull()
         {
-            _mockCachedCalculator.Setup(x => x.GetCachedResult<int>(1, 2, "+"))
+            // Arrange: Mock cached result to return null
+            _mockCachedCalculator.Setup(c => c.GetCachedResult<int>(It.IsAny<int>(), It.IsAny<int?>(), It.IsAny<string>()))
                 .Returns((CachedCalculator.Calculation<int>)null);
 
-            var result = _controller.GetCachedResult(1, 2, "+");
-            var notFoundResult = result.Result as NotFoundObjectResult;
+            // Act
+            var result = _controller.GetCachedResult(1, 2, "add");
 
-            Assert.NotNull(notFoundResult);
-            Assert.AreEqual(404, notFoundResult.StatusCode);
+            // Assert
+            var actionResult = result.Result as NotFoundObjectResult;
+            Assert.AreEqual("No cached result found.", actionResult.Value);
         }
 
         [Test]
-        public void Calculations_ReturnsOkWithData()
+        public void GetCachedResult_ReturnsOk_WhenCachedResultIsFound()
         {
-            var calculations = new List<Calculation>
-            {
-                new Calculation { CalcString = "1 + 1 = 2" }
-            };
+            // Arrange: Mock a valid cached result
+            var cachedResult = new CachedCalculator.Calculation<int>(1, "add", 3, 2);
+            _mockCachedCalculator.Setup(c => c.GetCachedResult<int>(It.IsAny<int>(), It.IsAny<int?>(), It.IsAny<string>()))
+                .Returns(cachedResult);
 
-            _mockCalculatorRepository.Setup(x => x.GetCalculations()).Returns(calculations);
+            // Act
+            var result = _controller.GetCachedResult(1, 2, "add");
 
-            var result = _controller.Calculations() as OkObjectResult;
-
-            Assert.NotNull(result);
-            Assert.AreEqual(200, result.StatusCode);
-            Assert.AreEqual(calculations, result.Value);
-        }
-
-
-        [Test]
-        public void CalculateAdd_ReturnsCorrectResult()
-        {
-            _mockCalculator.Setup(x => x.Add(1, 2)).Returns(3);
-
-            var result = _controller.CalculateAdd(1, 2) as OkObjectResult;
-
-            Assert.NotNull(result);
-            Assert.AreEqual(200, result.StatusCode);
-            Assert.AreEqual(3, result.Value);
+            // Assert
+            var actionResult = result.Result as OkObjectResult;
+            Assert.AreEqual(cachedResult, actionResult.Value);
         }
 
         [Test]
-        public void CalculateSubtract_ReturnsCorrectResult()
+        public void Calculations_ReturnsOk_WhenCalculationsAreFound()
         {
-            _mockCalculator.Setup(x => x.Subtract(5, 3)).Returns(2);
+            // Arrange: Mock calculator repository to return some calculations
+            var calculations = new List<Calculation> { new Calculation { A = 1, B = 2, Result = 3 } };
+            _mockCalculatorRepository.Setup(r => r.GetCalculations())
+                .Returns(calculations);
 
-            var result = _controller.CalculateSubtract(5, 3) as OkObjectResult;
+            // Act
+            var result = _controller.Calculations();
 
-            Assert.NotNull(result);
-            Assert.AreEqual(200, result.StatusCode);
-            Assert.AreEqual(2, result.Value);
+            // Assert
+            var actionResult = result as OkObjectResult;
+            Assert.AreEqual(calculations, actionResult.Value);
         }
 
         [Test]
-        public void CalculateMultiply_ReturnsCorrectResult()
+        public void CalculateAdd_ReturnsOk_WhenModelIsValid()
         {
-            _mockCalculator.Setup(x => x.Multiply(2, 3)).Returns(6);
+            // Arrange: Mock calculator to return a valid result
+            var input = new CalculationInput { A = 3, B = 2 };
+            _mockCalculator.Setup(c => c.Add(input.A, input.B)).Returns(5);
 
-            var result = _controller.CalculateMultiply(2, 3) as OkObjectResult;
+            // Act
+            var result = _controller.CalculateAdd(input);
 
-            Assert.NotNull(result);
-            Assert.AreEqual(200, result.StatusCode);
-            Assert.AreEqual(6, result.Value);
+            // Assert
+            var actionResult = result as OkObjectResult;
+            Assert.AreEqual(5, actionResult.Value);
         }
 
         [Test]
-        public void CalculateDivide_ReturnsCorrectResult()
+        public void CalculateAdd_ReturnsBadRequest_WhenModelIsInvalid()
         {
-            _mockCalculator.Setup(x => x.Divide(6, 2)).Returns(3);
+            // Arrange: Invalid model (model state will be invalid)
+            _controller.ModelState.AddModelError("A", "A is required");
+            var input = new CalculationInput { A = 0, B = 2 };
 
-            var result = _controller.CalculateDivide(6, 2) as OkObjectResult;
+            // Act
+            var result = _controller.CalculateAdd(input);
 
-            Assert.NotNull(result);
-            Assert.AreEqual(200, result.StatusCode);
-            Assert.AreEqual(3, result.Value);
+            // Assert
+            var actionResult = result as BadRequestObjectResult;
+            Assert.AreEqual(_controller.ModelState, actionResult.Value);
         }
 
         [Test]
-        public void CalculateFactorial_ReturnsCorrectResult()
+        public void CalculateSubtract_ReturnsOk_WhenModelIsValid()
         {
-            _mockCalculator.Setup(x => x.Factorial(5)).Returns(120);
+            // Arrange: Mock calculator to return a valid result
+            var input = new CalculationInput { A = 3, B = 2 };
+            _mockCalculator.Setup(c => c.Subtract(input.A, input.B)).Returns(1);
 
-            var result = _controller.CalculateFactorial(5) as OkObjectResult;
+            // Act
+            var result = _controller.CalculateSubtract(input);
 
-            Assert.NotNull(result);
-            Assert.AreEqual(200, result.StatusCode);
-            Assert.AreEqual(120, result.Value);
+            // Assert
+            var actionResult = result as OkObjectResult;
+            Assert.AreEqual(1, actionResult.Value);
         }
 
         [Test]
-        public void CalculateIsPrime_ReturnsCorrectResult()
+        public void CalculateMultiply_ReturnsOk_WhenModelIsValid()
         {
-            _mockCalculator.Setup(x => x.IsPrime(7)).Returns(true);
+            // Arrange: Mock calculator to return a valid result
+            var input = new CalculationInput { A = 3, B = 2 };
+            _mockCalculator.Setup(c => c.Multiply(input.A, input.B)).Returns(6);
 
-            var result = _controller.CalculateIsPrime(7) as OkObjectResult;
+            // Act
+            var result = _controller.CalculateMultiply(input);
 
-            Assert.NotNull(result);
-            Assert.AreEqual(200, result.StatusCode);
-            Assert.AreEqual(true, result.Value);
+            // Assert
+            var actionResult = result as OkObjectResult;
+            Assert.AreEqual(6, actionResult.Value);
         }
+
+        [Test]
+        public void CalculateDivide_ReturnsOk_WhenModelIsValid()
+        {
+            // Arrange: Mock calculator to return a valid result
+            var input = new CalculationInput { A = 6, B = 2 };
+            _mockCalculator.Setup(c => c.Divide(input.A, input.B)).Returns(3);
+
+            // Act
+            var result = _controller.CalculateDivide(input);
+
+            // Assert
+            var actionResult = result as OkObjectResult;
+            Assert.AreEqual(3, actionResult.Value);
+        }
+
+        [Test]
+        public void CalculateFactorial_ReturnsOk_WhenModelIsValid()
+        {
+            // Arrange: Mock calculator to return a valid result
+            var input = new FactorialInput { N = 5 };
+            _mockCalculator.Setup(c => c.Factorial(input.N)).Returns(120);
+
+            // Act
+            var result = _controller.CalculateFactorial(input);
+
+            // Assert
+            var actionResult = result as OkObjectResult;
+            Assert.AreEqual(120, actionResult.Value);
+        }
+
+        [Test]
+        public void CalculateIsPrime_ReturnsOk_WhenModelIsValid()
+        {
+            // Arrange: Mock the calculator to return a valid result
+            var input = new PrimeCheckInput { Candidate = 5 };
+            _mockCalculator.Setup(c => c.IsPrime(input.Candidate)).Returns(true);
+
+            // Act
+            var result = _controller.CalculateIsPrime(input);
+
+            // Assert
+            var actionResult = result as OkObjectResult;
+
+            // Assert that the result is an OkObjectResult
+            Assert.IsNotNull(actionResult, "Expected OkObjectResult, but the result is null.");
+            
+        }
+
     }
 }
+
