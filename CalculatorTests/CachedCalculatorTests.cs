@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Moq;
 using DevOpsCalculator.BLL;
 using DevOpsCalculator.DAL.Repositories.interfaces;
@@ -20,59 +21,66 @@ namespace DevOpsCalculator.Tests
         [Test]
         public void Add_ShouldReturnCorrectResult()
         {
+            var expected = 5;
             int result = _cachedCalculator.Add(2, 3);
-            Assert.AreEqual(5, result);
+            Assert.That(expected, Is.EqualTo(result));
         }
 
         [Test]
         public void Subtract_ShouldReturnCorrectResult()
         {
+            var expected = 2;
             int result = _cachedCalculator.Subtract(5, 3);
-            Assert.AreEqual(2, result);
+            Assert.That(expected, Is.EqualTo(result));
         }
 
         [Test]
         public void Multiply_ShouldReturnCorrectResult()
         {
+            var expected = 12;
             int result = _cachedCalculator.Multiply(4, 3);
-            Assert.AreEqual(12, result);
+            Assert.That(expected, Is.EqualTo(result));
         }
 
         [Test]
         public void Divide_ShouldReturnCorrectResult()
         {
+            var expected = 5;
             int result = _cachedCalculator.Divide(10, 2);
-            Assert.AreEqual(5, result);
+            Assert.That(expected, Is.EqualTo(result));
         }
 
         [Test]
         public void Factorial_ShouldReturnCorrectResult()
         {
+            var expected = 120;
             int result = _cachedCalculator.Factorial(5);
-            Assert.AreEqual(120, result);
+            Assert.That(expected, Is.EqualTo(result));
         }
 
         [Test]
         public void IsPrime_ShouldReturnTrueForPrimeNumbers()
         {
+
             bool result = _cachedCalculator.IsPrime(7);
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
         }
 
         [Test]
         public void IsPrime_ShouldReturnFalseForNonPrimeNumbers()
         {
             bool result = _cachedCalculator.IsPrime(10);
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
         public void GetCachedResult_ShouldReturnCachedValue()
         {
+            var expected = 5;
             _cachedCalculator.Add(2, 3); // First calculation should store in cache
             var cachedResult = _cachedCalculator.GetCachedResult<int>(2, 3, "Add");
             Assert.IsNotNull(cachedResult);
-            Assert.AreEqual(5, cachedResult.Result);
+            Assert.That(expected, Is.EqualTo(cachedResult.Result));
         }
     }
 }

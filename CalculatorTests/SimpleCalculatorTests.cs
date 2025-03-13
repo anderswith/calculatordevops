@@ -75,8 +75,9 @@ namespace DevOpsCalculator.Tests
         [Test]
         public void Factorial_Zero_ShouldReturnOne()
         {
+            var expected = 1;
             int result = _simpleCalculator.Factorial(0);
-            Assert.AreEqual(1, result);
+            Assert.That(expected, Is.EqualTo(result));
         }
 
         [Test]
@@ -98,15 +99,16 @@ namespace DevOpsCalculator.Tests
         [Test]
         public void IsPrime_LessThanTwo_ShouldReturnFalse()
         {
+            
             bool result = _simpleCalculator.IsPrime(1);
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
         public void IsPrime_PrimeEdgeCase_ShouldReturnTrue()
         {
             bool result = _simpleCalculator.IsPrime(2);
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
         }
     }
 }
