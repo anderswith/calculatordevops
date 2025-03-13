@@ -31,6 +31,7 @@ jobs:
         with:
           bump_each_commit: true
           bump_each_commit_patch_pattern: 'bugfix'
+          tag_prefix: "v"
 
       - name: Display Version
         run: echo "Generated version is ${{ steps.semver-app.outputs.version}}"
