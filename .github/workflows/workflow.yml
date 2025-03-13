@@ -75,7 +75,7 @@ jobs:
             /d:sonar.host.url="${{ vars.SECRET_SONAR_URL }}" \
             /d:sonar.token="${{ secrets.SECRET_SONAR_TOKEN }}" \
             /d:sonar.coverageReportPaths="coverage-report/SonarQube.xml" \
-            /d:sonar.exclusions="DevOpsCalculator/DAL/**/*,DevOpsCalculator/main/**/*,DevOpsCalculator/calculator-frontend-main/**/*" \
+            /d:sonar.exclusions="DevOpsCalculator/DevOpsCalculator/DAL/**/*,calculator-frontend-main/**/*" \
             /d:sonar.qualitygate.wait=true \
             /d:sonar.qualitygate.timeout=300
 
