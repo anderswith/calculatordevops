@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using DevOpsCalculator.BE;
 using DevOpsCalculator.BLL;
 using DevOpsCalculator.BLL.Interfaces;
@@ -6,7 +5,7 @@ using DevOpsCalculator.Controllers;
 using DevOpsCalculator.DAL.Repositories.interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using NUnit.Framework;
+
 
 namespace DevOpsCalculator.tests
 {

@@ -112,9 +112,8 @@ public class SimpleCalculator : ICalculator
                 return false;
             }
         }
-        return true;
-       
-    }
 
+        return true;
+    }
 
 }
