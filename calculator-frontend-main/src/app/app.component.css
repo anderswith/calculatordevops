@@ -67,4 +67,7 @@ h1 {
   font-size: 20px;
   border-radius: 15px;
   border: black solid 2px;
+  max-height: 720px;
+  overflow: auto;
+  padding: 10px;
 }
