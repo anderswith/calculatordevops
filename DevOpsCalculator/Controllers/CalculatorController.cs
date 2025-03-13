@@ -25,9 +25,12 @@ public class CalculatorController : ControllerBase
         if (string.IsNullOrEmpty(operation))
         {
             ModelState.AddModelError("operation", "Operation is required.");
-            return BadRequest(ModelState); // return BadRequest if operation is invalid
         }
-
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState); 
+        }
+        
         var cachedResult = _cachedCalculator.GetCachedResult<int>(a, b, operation);
 
         if (cachedResult == null)
@@ -35,7 +38,10 @@ public class CalculatorController : ControllerBase
             return NotFound("No cached result found.");
         }
 
-        return Ok(cachedResult);
+        if (ModelState.IsValid)
+        {
+            return Ok(cachedResult);
+        }
     }
 
     
