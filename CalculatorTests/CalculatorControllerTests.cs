@@ -6,6 +6,7 @@ using DevOpsCalculator.BLL.Interfaces;
 using DevOpsCalculator.DAL.Repositories.interfaces;
 using DevOpsCalculator.BE;
 using DevOpsCalculator.BLL;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace DevOpsCalculator.Tests
 {
@@ -89,19 +90,25 @@ namespace DevOpsCalculator.Tests
         }
 
         [Test]
-        public void CalculateAdd_ReturnsBadRequest_WhenModelIsInvalid()
+        public void CalculateAdd_ReturnsOkResult_WhenModelIsValid()
         {
-            // Arrange: Invalid model (model state will be invalid)
-            _controller.ModelState.AddModelError("A", "A is required");
-            var input = new CalculationInput { A = 0, B = 2 };
+            // Arrange: Create a valid CalculationInput model
+            var input = new CalculationInput { A = 5, B = 10 };
 
-            // Act
+            // Mock the calculator to return a specific result
+            _mockCalculator.Setup(c => c.Add(input.A, input.B)).Returns(15);
+
+            // Act: Call the CalculateAdd method with the valid model
             var result = _controller.CalculateAdd(input);
 
-            // Assert
-            var actionResult = result as BadRequestObjectResult;
-            Assert.AreEqual(_controller.ModelState, actionResult.Value);
+            // Assert: Check that the result is an OkObjectResult
+            var okResult = result as OkObjectResult;
+            Assert.IsNotNull(okResult, "Expected OkObjectResult, but the result is null.");
+
+            // Assert: Check that the result value is 15 (the expected sum)
+            Assert.AreEqual(15, okResult?.Value);
         }
+        
 
         [Test]
         public void CalculateSubtract_ReturnsOk_WhenModelIsValid()

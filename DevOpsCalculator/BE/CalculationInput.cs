@@ -4,9 +4,9 @@ namespace DevOpsCalculator.BE;
 
 public class CalculationInput
 {
-    [Required]
+    [Required(ErrorMessage = "A is required")]
     public int A { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "B is required")]
     public int B { get; set; }
 }
