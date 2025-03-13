@@ -187,6 +187,113 @@ namespace DevOpsCalculator.Tests
             Assert.IsNotNull(actionResult, "Expected OkObjectResult, but the result is null.");
             
         }
+        [Test]
+        public void CalculateAdd_ReturnsBadRequest_WhenModelIsInvalid()
+        {
+            // Arrange: Create an invalid CalculationInput model (missing A and B)
+            var input = new CalculationInput();
+            _controller.ModelState.AddModelError("A", "A is required");
+            _controller.ModelState.AddModelError("B", "B is required");
+
+            // Act: Call the CalculateAdd method with the invalid model
+            var result = _controller.CalculateAdd(input);
+
+            // Assert: Ensure the result is BadRequest
+            var badRequestResult = result as BadRequestObjectResult;
+            Assert.IsNotNull(badRequestResult);
+            Assert.IsTrue(badRequestResult.Value is SerializableError);
+        }
+
+        // Test for CalculateSubtract with invalid model
+        [Test]
+        public void CalculateSubtract_ReturnsBadRequest_WhenModelIsInvalid()
+        {
+            var input = new CalculationInput();
+            _controller.ModelState.AddModelError("A", "A is required");
+            _controller.ModelState.AddModelError("B", "B is required");
+
+            var result = _controller.CalculateSubtract(input);
+
+            var badRequestResult = result as BadRequestObjectResult;
+            Assert.IsNotNull(badRequestResult);
+            Assert.IsTrue(badRequestResult.Value is SerializableError);
+        }
+
+        // Test for CalculateMultiply with invalid model
+        [Test]
+        public void CalculateMultiply_ReturnsBadRequest_WhenModelIsInvalid()
+        {
+            var input = new CalculationInput();
+            _controller.ModelState.AddModelError("A", "A is required");
+            _controller.ModelState.AddModelError("B", "B is required");
+
+            var result = _controller.CalculateMultiply(input);
+
+            var badRequestResult = result as BadRequestObjectResult;
+            Assert.IsNotNull(badRequestResult);
+            Assert.IsTrue(badRequestResult.Value is SerializableError);
+        }
+
+        // Test for CalculateDivide with invalid model
+        [Test]
+        public void CalculateDivide_ReturnsBadRequest_WhenModelIsInvalid()
+        {
+            var input = new CalculationInput();
+            _controller.ModelState.AddModelError("A", "A is required");
+            _controller.ModelState.AddModelError("B", "B is required");
+
+            var result = _controller.CalculateDivide(input);
+
+            var badRequestResult = result as BadRequestObjectResult;
+            Assert.IsNotNull(badRequestResult);
+            Assert.IsTrue(badRequestResult.Value is SerializableError);
+        }
+
+        // Test for CalculateFactorial with invalid model
+        [Test]
+        public void CalculateFactorial_ReturnsBadRequest_WhenModelIsInvalid()
+        {
+            var input = new FactorialInput();
+            _controller.ModelState.AddModelError("N", "N is required");
+
+            var result = _controller.CalculateFactorial(input);
+
+            var badRequestResult = result as BadRequestObjectResult;
+            Assert.IsNotNull(badRequestResult);
+            Assert.IsTrue(badRequestResult.Value is SerializableError);
+        }
+
+        // Test for CalculateIsPrime with invalid model
+        [Test]
+        public void CalculateIsPrime_ReturnsBadRequest_WhenModelIsInvalid()
+        {
+            var input = new PrimeCheckInput();
+            _controller.ModelState.AddModelError("Candidate", "Candidate is required");
+
+            var result = _controller.CalculateIsPrime(input);
+
+            var badRequestResult = result as BadRequestObjectResult;
+            Assert.IsNotNull(badRequestResult);
+            Assert.IsTrue(badRequestResult.Value is SerializableError);
+        }
+
+        // Test for GetCachedResult with invalid query parameters
+        [Test]
+        public void GetCachedResult_ReturnsBadRequest_WhenModelIsInvalid()
+        {
+            // Arrange: Simulate an invalid query by passing `null` values for required parameters
+            // or invalid parameters to the `GetCachedResult` action.
+            // In this case, we're passing `null` for the required `operation`.
+            var result = _controller.GetCachedResult(1, null, null);
+
+            // Act: The result should be a BadRequestObjectResult if the model is invalid
+            var badRequestResult = result.Result as BadRequestObjectResult;
+
+            // Assert: The result should be BadRequest and contain the ModelState errors
+            Assert.IsNotNull(badRequestResult);
+            Assert.IsTrue(badRequestResult.Value is SerializableError);
+        }
+        
 
     }
 }

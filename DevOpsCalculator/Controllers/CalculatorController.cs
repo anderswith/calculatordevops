@@ -22,6 +22,12 @@ public class CalculatorController : ControllerBase
     [HttpGet("[action]")]
     public ActionResult<CachedCalculator.Calculation<int>> GetCachedResult(int a, int? b, string operation)
     {
+        if (string.IsNullOrEmpty(operation))
+        {
+            ModelState.AddModelError("operation", "Operation is required.");
+            return BadRequest(ModelState); // return BadRequest if operation is invalid
+        }
+
         var cachedResult = _cachedCalculator.GetCachedResult<int>(a, b, operation);
 
         if (cachedResult == null)
@@ -31,6 +37,7 @@ public class CalculatorController : ControllerBase
 
         return Ok(cachedResult);
     }
+
     
     [HttpGet("[action]")]
     public IActionResult Calculations()
