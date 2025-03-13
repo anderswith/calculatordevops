@@ -37,11 +37,9 @@ public class CalculatorController : ControllerBase
         {
             return NotFound("No cached result found.");
         }
-
-        if (ModelState.IsValid)
-        {
-            return Ok(cachedResult);
-        }
+        
+        return Ok(cachedResult);
+        
     }
 
     
