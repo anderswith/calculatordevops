@@ -40,6 +40,18 @@ jobs:
       - name: Install K6
         run: |
           sudo snap install k6
+          
+      - name: Wait for API to start
+        run: |
+          echo "Waiting for the API to be available..."
+          until curl --silent --fail http://localhost:5062/api/Calculator/Calculations; do
+            sleep 2
+          done
+          echo "API is available!"
+          
+      - name: Verify if API is running
+        run: |
+          curl --fail http://127.0.0.1:5062/api/Calculator/Calculations || exit 1
 
       - name: Verify API is accessible
         run: |
