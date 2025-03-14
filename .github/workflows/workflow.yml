@@ -41,6 +41,10 @@ jobs:
         run: |
           sudo snap install k6
 
+      - name: Verify API is accessible
+        run: |
+          curl --fail http://localhost:5062/api/Calculator/Calculations || exit 1
+
       - name: Run K6 Spike Test
         run: k6 run k6-tests/spike-test.js
 
