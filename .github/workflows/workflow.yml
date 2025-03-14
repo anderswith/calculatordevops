@@ -55,16 +55,16 @@ jobs:
           source: "docker-compose.yml"
           target: dowa/
 
-      - name: Run Docker Compose on staging server
-        uses: appleboy/ssh-action@v1.2.1
+      - name: Deliver database migrations to staging server
+        uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ vars.STAGING_SERVER_IP }}
           username: ${{ vars.STAGING_SERVER_USERNAME }}
           key: ${{ secrets.STAGING_SERVER_SSH_KEY }}
-          script: |
-            cd dowa/
-            docker compose pull
-            docker compose up -d
+          source: "dbmigration/*"  # Corrected path
+          target: "dowa/dbmigration"  # Change based on your remote structure
+          overwrite: true
+          debug: true
           
       - name: Create release notes
         uses: ncipollo/release-action@v1
