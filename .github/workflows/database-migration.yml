@@ -34,7 +34,7 @@ jobs:
         run: |
           docker run --rm \
             --network=host \
-            -v $(pwd)/db/migrations:/flyway/sql \
+            -v $(pwd)/dbmigrations:/flyway/sql \
             flyway/flyway:latest \
             -url=jdbc:mariadb://127.0.0.1:3306/calculator \
             -user=user -password=password migrate
