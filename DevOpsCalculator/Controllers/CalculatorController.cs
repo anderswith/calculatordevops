@@ -22,14 +22,7 @@ public class CalculatorController : ControllerBase
     [HttpGet("[action]")]
     public ActionResult<CachedCalculator.Calculation<int>> GetCachedResult(int a, int? b, string operation)
     {
-        if (string.IsNullOrEmpty(operation))
-        {
-            ModelState.AddModelError("operation", "Operation is required.");
-        }
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState); 
-        }
+
         
         var cachedResult = _cachedCalculator.GetCachedResult<int>(a, b, operation);
 
@@ -59,15 +52,7 @@ public class CalculatorController : ControllerBase
     [HttpPost("[action]")]
     public IActionResult CalculateAdd([FromBody] CalculationInput input)
     {
-        if (input.A == null)  // Check if A is null
-        {
-            ModelState.AddModelError("A", "A is required");
-        }
 
-        if (input.B == null)  // Check if B is null
-        {
-            ModelState.AddModelError("B", "B is required");
-        }
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
@@ -81,15 +66,7 @@ public class CalculatorController : ControllerBase
     [HttpPost("[action]")]
     public IActionResult CalculateSubtract([FromBody] CalculationInput input)
     {
-        if (input.A == null)  // Check if A is null
-        {
-            ModelState.AddModelError("A", "A is required");
-        }
 
-        if (input.B == null)  // Check if B is null
-        {
-            ModelState.AddModelError("B", "B is required");
-        }
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
@@ -103,15 +80,7 @@ public class CalculatorController : ControllerBase
     [HttpPost("[action]")]
     public IActionResult CalculateMultiply([FromBody] CalculationInput input)
     {
-        if (input.A == null)  // Check if A is null
-        {
-            ModelState.AddModelError("A", "A is required");
-        }
 
-        if (input.B == null)  // Check if B is null
-        {
-            ModelState.AddModelError("B", "B is required");
-        }
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
@@ -125,15 +94,7 @@ public class CalculatorController : ControllerBase
     [HttpPost("[action]")]
     public IActionResult CalculateDivide([FromBody] CalculationInput input)
     {
-        if (input.A == null)  // Check if A is null
-        {
-            ModelState.AddModelError("A", "A is required");
-        }
 
-        if (input.B == null)  // Check if B is null
-        {
-            ModelState.AddModelError("B", "B is required");
-        }
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
@@ -147,10 +108,6 @@ public class CalculatorController : ControllerBase
     [HttpPost("[action]")]
     public IActionResult CalculateFactorial([FromBody] FactorialInput input)
     {
-        if (input.N == null)  // Check if N is null
-        {
-            ModelState.AddModelError("N", "N is required");
-        }
         
         if (!ModelState.IsValid)
         {
@@ -165,10 +122,6 @@ public class CalculatorController : ControllerBase
     [HttpPost("[action]")]
     public IActionResult CalculateIsPrime([FromBody] PrimeCheckInput input)
     {
-        if (input.Candidate == null)  // Check if candidate is null
-        {
-            ModelState.AddModelError("N", "N is required");
-        }
         
         if (!ModelState.IsValid)
         {
