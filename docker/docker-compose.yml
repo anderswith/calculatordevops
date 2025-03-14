@@ -21,7 +21,7 @@ services:
     depends_on:
       - mariadb
     volumes:
-      - ./db/migrations:/flyway/sql
+      - ./dbmigrations:/flyway/sql
     environment:
       - FLYWAY_URL=jdbc:mariadb://mariadb:3306/calculator
       - FLYWAY_USER=user
