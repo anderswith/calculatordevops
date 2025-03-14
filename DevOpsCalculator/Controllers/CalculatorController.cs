@@ -43,10 +43,6 @@ public class CalculatorController : ControllerBase
     [HttpGet("[action]")]
     public IActionResult Calculations()
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
 
         var calculations = _calculatorRepository.GetCalculations();
         return Ok(calculations);

@@ -6,7 +6,7 @@ namespace DevOpsCalculator.BE;
 public class Calculation
 {
     [Key] public Guid CalculationId { get; set; }
-    public String? CalcString { get; set; }
+    public String CalcString { get; set; } = string.Empty;  // Prevent null strings
 
     [JsonRequired]
     [Required(ErrorMessage = "A is required")]
@@ -16,7 +16,7 @@ public class Calculation
     [Required(ErrorMessage = "B is required")]
     public int? B { get; set; }
 
-    public int Result { get; set; }
+    public int? Result { get; set; }
 
-    public string? Operation { get; }
+    public string? Operation { get; set; }
 }
