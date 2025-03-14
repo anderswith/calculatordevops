@@ -17,12 +17,12 @@ jobs:
           MYSQL_USER: user
           MYSQL_PASSWORD: password
         ports:
-          - "3306:3306"
+          - "3307:3306"
         options: >-
           --health-cmd="mysqladmin ping -h 127.0.0.1 --silent"
           --health-interval=10s
           --health-timeout=5s
-          --health-retries=5
+          --health-retries=5"
 
     steps:
       - name: Checkout repository
@@ -31,7 +31,7 @@ jobs:
       - name: Wait for MariaDB to be ready
         run: |
           echo "Waiting for MariaDB to start..."
-          sleep 20  # Give MariaDB time to initialize
+          sleep 40  # Give MariaDB time to initialize
           until docker exec $(docker ps -q -f ancestor=mariadb:latest) mysqladmin ping -h 127.0.0.1 --silent; do
             echo "Waiting for MariaDB..."
             sleep 5
@@ -44,5 +44,5 @@ jobs:
             --network=host \
             -v $(pwd)/dbmigration:/flyway/sql \
             flyway/flyway:latest \
-            -url=jdbc:mariadb://127.0.0.1:3306/calculator \
+            -url=jdbc:mariadb://127.0.0.1:3307/calculator
             -user=user -password=password migrate
