@@ -1,3 +1,6 @@
 services:
   web:
-    image: ghcr.io
+    image: ghcr.io/tboutlund-debops/devops-web-app:staging
+    ports:
+      - "8000:8000"
+
