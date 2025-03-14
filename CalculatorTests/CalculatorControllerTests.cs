@@ -112,7 +112,7 @@ namespace DevOpsCalculator.Tests
 
             // Assert: Check that the result is an OkObjectResult
             var okResult = result as OkObjectResult;
-            Assert.IsNotNull(okResult, "Expected OkObjectResult, but the result is null.");
+            Assert.That(okResult,Is.Not.Null, "Expected OkObjectResult, but the result is null.");
 
             // Assert: Check that the result value is 15 (the expected sum)
             Assert.That(okResult?.Value, Is.EqualTo(expected));
@@ -201,7 +201,7 @@ namespace DevOpsCalculator.Tests
             var actionResult = result as OkObjectResult;
 
             // Assert that the result is an OkObjectResult
-            Assert.IsNotNull(actionResult, "Expected OkObjectResult, but the result is null.");
+            Assert.That(actionResult, Is.Not.Null ,"Expected OkObjectResult, but the result is null.");
             
         }
         [Test]
