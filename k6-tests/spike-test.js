@@ -3,9 +3,9 @@ import http from 'k6/http';
 
 export const options = {
     stages: [
-        { duration: '30s', target: 2000 }, //ramp up
-        { duration: '2m', target: 2000 }, //stable
-        { duration: '30s', target: 0 }, //ramp down
+        { duration: '3s', target: 2000 }, //ramp up
+        { duration: '3s', target: 2000 }, //stable
+        { duration: '3s', target: 0 }, //ramp down
     ]
 }
 export default () =>{

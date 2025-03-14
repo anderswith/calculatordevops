@@ -36,6 +36,13 @@ jobs:
 
       - name: Display Version
         run: echo "Generated version is ${{ steps.semver-app.outputs.version}}"
+        
+      - name: Install K6
+        run: |
+          sudo snap install k6
+
+      - name: Run K6 Spike Test
+        run: k6 run k6-tests/spike-test.js
 
       - name: Run unit tests
         run: |
@@ -97,10 +104,5 @@ jobs:
           dotnet sonarscanner end \
             /d:sonar.token="${{secrets.SECRET_SONAR_TOKEN}}"
           
-      - name: Install K6
-        run: |
-          sudo snap install k6
-  
-      - name: Run K6 Spike Test
-        run: k6 run k6-tests/spike-test.js
+      
    
