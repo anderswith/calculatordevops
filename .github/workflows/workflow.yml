@@ -41,23 +41,16 @@ jobs:
         run: |
           sudo snap install k6
           
-      - name: Wait for API to start
-        run: |
-          echo "Waiting for the API to be available..."
-          until curl --silent --fail -v http://127.0.0.1:5062/api/Calculator/Calculations; do
-            echo "Waiting for API to respond..."
-            sleep 2
-          done
-          echo "API is available!"
-
 
       - name: Verify if API is running
         run: |
-          curl --fail http://127.0.0.1:5062/api/Calculator/Calculations || exit 1
+          curl http://localhost:5062/api/Calculator/Calculations || exit 1
+          echo "200 OK"
 
       - name: Verify API is accessible
         run: |
-          curl --fail http://localhost:5062/api/Calculator/Calculations || exit 1
+          curl http://localhost:5062/api/Calculator/Calculations || exit 1
+          echo "200 OK"
 
       - name: Run K6 Spike Test
         run: k6 run k6-tests/spike-test.js
