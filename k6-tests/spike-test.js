@@ -1,5 +1,5 @@
 import http from 'k6/http';
-
+import { check, sleep } from 'k6';
 
 export const options = {
     stages: [
@@ -9,7 +9,12 @@ export const options = {
     ]
 }
 export default () =>{
-    http.get('http://localhost:5062/api/Calculator/Calculations')
-
+    let res = http.get('http://localhost:5062/api/Calculator/Calculations')
+    
+    check(res, {
+        'is status 200': (r) => r.status === 200,
+    });
+    
+    sleep(1)
 };
 

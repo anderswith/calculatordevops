@@ -25,7 +25,16 @@ jobs:
 
       - name: Verify SQL Connection String
         run: echo $SQL_CONNECTION_STRING
+        
+      - name: Setup K6
+        run: |
+          curl -s https://dl.k6.io/public/release/v0.44.0/linux-amd64/k6-v0.44.0-linux-amd64.tar.gz | tar -xz
+          sudo mv k6-v0.44.0-linux-amd64/k6 /usr/local/bin/
+          k6 version
 
+      - name: Run K6 Spike Test
+        run: k6 run k6-tests/spike-test.js
+        
       - name: Application Version
         id: semver-app
         uses: paulhatch/semantic-version@v5.4.0
@@ -36,24 +45,6 @@ jobs:
 
       - name: Display Version
         run: echo "Generated version is ${{ steps.semver-app.outputs.version}}"
-        
-      - name: Install K6
-        run: |
-          sudo snap install k6
-          
-
-      - name: Verify if API is running
-        run: |
-          curl http://localhost:5062/api/Calculator/Calculations || exit 1
-          echo "200 OK"
-
-      - name: Verify API is accessible
-        run: |
-          curl http://localhost:5062/api/Calculator/Calculations || exit 1
-          echo "200 OK"
-
-      - name: Run K6 Spike Test
-        run: k6 run k6-tests/spike-test.js
 
       - name: Run unit tests
         run: |
@@ -115,5 +106,6 @@ jobs:
           dotnet sonarscanner end \
             /d:sonar.token="${{secrets.SECRET_SONAR_TOKEN}}"
           
+      
       
    
