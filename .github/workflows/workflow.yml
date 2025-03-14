@@ -98,7 +98,17 @@ jobs:
         run: |
           dotnet sonarscanner end \
             /d:sonar.token="${{secrets.SECRET_SONAR_TOKEN}}"
-          
+
+      - name: Debug Compose File Path
+        run: |
+          if [ ! -f "calculatordevops/docker-compose.yml" ]; then
+            echo "ERROR: docker-compose.yml not found!"
+            exit 1
+          else
+            echo "docker-compose.yml exists."
+          fi
+    
+    
       - name: Deliver Compose file to staging server
         uses: appleboy/scp-action@v0.1.7
         with:
