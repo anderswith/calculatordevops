@@ -99,7 +99,9 @@ jobs:
           dotnet sonarscanner end \
             /d:sonar.token="${{secrets.SECRET_SONAR_TOKEN}}"
     
-
+      - name: List source directory contents
+        run: ls -la calculatordevops/docker/
+        
       - name: Deliver Compose file to staging server
         uses: appleboy/scp-action@v0.1.7
         with:
