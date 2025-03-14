@@ -32,7 +32,7 @@ jobs:
         run: |
           echo "Waiting for MariaDB to start..."
           sleep 40  # Give MariaDB time to initialize
-          until docker exec $(docker ps -q -f ancestor=mariadb:latest) mysqladmin ping -h 127.0.0.1 --silent; do
+          until docker exec $(docker ps -q -f name=mariadb) mysqladmin ping -h 127.0.0.1 --silent; do
             echo "Waiting for MariaDB..."
             sleep 5
           done
@@ -44,5 +44,5 @@ jobs:
             --network=host \
             -v $(pwd)/dbmigration:/flyway/sql \
             flyway/flyway:latest \
-            -url=jdbc:mariadb://127.0.0.1:3307/calculator
+            -url=jdbc:mariadb://127.0.0.1:3307/calculator \
             -user=user -password=password migrate
