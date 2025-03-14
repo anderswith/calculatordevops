@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DevOpsCalculator.Controllers;
 
+[ApiController]
+[Route("api/[controller]")]
 public class CalculatorController : ControllerBase
 {
     private readonly ICalculator _calculator;
@@ -25,7 +27,10 @@ public class CalculatorController : ControllerBase
 
         
         var cachedResult = _cachedCalculator.GetCachedResult<int>(a, b, operation);
-
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         if (cachedResult == null)
         {
             return NotFound("No cached result found.");
@@ -35,7 +40,8 @@ public class CalculatorController : ControllerBase
         
     }
 
-    
+    [ProducesResponseType(typeof(List<>), 200)]  // 200 OK, returning a list
+    [ProducesResponseType(typeof(ValidationProblemDetails), 400)]  // 400 BadRequest, returning ModelState errors
     [HttpGet("[action]")]
     public IActionResult Calculations()
     {
@@ -49,6 +55,8 @@ public class CalculatorController : ControllerBase
     }
 
     // POST method for adding numbers
+    [ProducesResponseType(typeof(int), 200)]  // 200 OK, returning an integer
+    [ProducesResponseType(typeof(ValidationProblemDetails), 400)]  // 400 BadRequest, returning ModelState errors
     [HttpPost("[action]")]
     public IActionResult CalculateAdd([FromBody] CalculationInput input)
     {
@@ -63,6 +71,8 @@ public class CalculatorController : ControllerBase
     }
 
     // POST method for subtracting numbers
+    [ProducesResponseType(typeof(int), 200)]  // 200 OK, returning an integer
+    [ProducesResponseType(typeof(ValidationProblemDetails), 400)]  // 400 BadRequest, returning ModelState errors
     [HttpPost("[action]")]
     public IActionResult CalculateSubtract([FromBody] CalculationInput input)
     {
@@ -77,6 +87,8 @@ public class CalculatorController : ControllerBase
     }
 
     // POST method for multiplying numbers
+    [ProducesResponseType(typeof(int), 200)]  // 200 OK, returning an integer
+    [ProducesResponseType(typeof(ValidationProblemDetails), 400)]  // 400 BadRequest, returning ModelState errors
     [HttpPost("[action]")]
     public IActionResult CalculateMultiply([FromBody] CalculationInput input)
     {
@@ -91,6 +103,8 @@ public class CalculatorController : ControllerBase
     }
 
     // POST method for dividing numbers
+    [ProducesResponseType(typeof(int), 200)]  // 200 OK, returning an integer
+    [ProducesResponseType(typeof(ValidationProblemDetails), 400)]  // 400 BadRequest, returning ModelState errors
     [HttpPost("[action]")]
     public IActionResult CalculateDivide([FromBody] CalculationInput input)
     {
@@ -105,6 +119,8 @@ public class CalculatorController : ControllerBase
     }
 
     // POST method for calculating factorial
+    [ProducesResponseType(typeof(int), 200)]  // 200 OK, returning an integer
+    [ProducesResponseType(typeof(ValidationProblemDetails), 400)]  // 400 BadRequest, returning ModelState errors
     [HttpPost("[action]")]
     public IActionResult CalculateFactorial([FromBody] FactorialInput input)
     {
@@ -119,6 +135,8 @@ public class CalculatorController : ControllerBase
     }
 
     // POST method for checking prime number
+    [ProducesResponseType(typeof(bool), 200)]  // 200 OK, returning a boolean
+    [ProducesResponseType(typeof(ValidationProblemDetails), 400)]  // 400 BadRequest, returning ModelState errors
     [HttpPost("[action]")]
     public IActionResult CalculateIsPrime([FromBody] PrimeCheckInput input)
     {
