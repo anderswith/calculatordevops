@@ -23,7 +23,7 @@ namespace DevOpsCalculator.Tests
         {
             var expected = 5;
             int result = _cachedCalculator.Add(2, 3);
-            Assert.That(expected, Is.EqualTo(result));
+            Assert.That(result, Is.EqualTo(expected));
         }
 
         [Test]
@@ -31,7 +31,7 @@ namespace DevOpsCalculator.Tests
         {
             var expected = 2;
             int result = _cachedCalculator.Subtract(5, 3);
-            Assert.That(expected, Is.EqualTo(result));
+            Assert.That(result, Is.EqualTo(expected));
         }
 
         [Test]
@@ -39,7 +39,7 @@ namespace DevOpsCalculator.Tests
         {
             var expected = 12;
             int result = _cachedCalculator.Multiply(4, 3);
-            Assert.That(expected, Is.EqualTo(result));
+            Assert.That(result, Is.EqualTo(expected));
         }
 
         [Test]
@@ -47,7 +47,7 @@ namespace DevOpsCalculator.Tests
         {
             var expected = 5;
             int result = _cachedCalculator.Divide(10, 2);
-            Assert.That(expected, Is.EqualTo(result));
+            Assert.That(result, Is.EqualTo(expected));
         }
 
         [Test]
@@ -55,7 +55,7 @@ namespace DevOpsCalculator.Tests
         {
             var expected = 120;
             int result = _cachedCalculator.Factorial(5);
-            Assert.That(expected, Is.EqualTo(result));
+            Assert.That(result, Is.EqualTo(expected));
         }
 
         [Test]
@@ -80,7 +80,7 @@ namespace DevOpsCalculator.Tests
             _cachedCalculator.Add(2, 3); // First calculation should store in cache
             var cachedResult = _cachedCalculator.GetCachedResult<int>(2, 3, "Add");
             Assert.IsNotNull(cachedResult);
-            Assert.That(expected, Is.EqualTo(cachedResult.Result));
+            Assert.That(cachedResult.Result, Is.EqualTo(expected));
         }
     }
 }
