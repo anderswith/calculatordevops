@@ -28,11 +28,33 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Check Docker version
+        run: docker --version
+
+      - name: Clean up resources from previous jobs
+        run: |
+          docker system prune -f
+          docker network prune -f
+
+      - name: Create local container network
+        run: docker network create local_network
+
+      - name: Start MariaDB service container
+        run: |
+          docker run -d --name mariadb_service \
+            --network=local_network \
+            -e MYSQL_ROOT_PASSWORD=root \
+            -e MYSQL_DATABASE=calculator \
+            -e MYSQL_USER=user \
+            -e MYSQL_PASSWORD=password \
+            -p 3307:3306 \
+            mariadb:latest
+
       - name: Wait for MariaDB to be ready
         run: |
           echo "Waiting for MariaDB to start..."
           sleep 40  # Give MariaDB time to initialize
-          until docker exec $(docker ps -q -f ancestor=mariadb:latest) mysqladmin ping -h 127.0.0.1 --silent; do
+          until docker exec mariadb_service mysqladmin ping -h 127.0.0.1 --silent; do
             echo "Waiting for MariaDB..."
             sleep 5
           done
@@ -41,8 +63,8 @@ jobs:
       - name: Run Flyway migrations
         run: |
           docker run --rm \
-            --network=host \
+            --network=local_network \
             -v $(pwd)/dbmigration:/flyway/sql \
             flyway/flyway:latest \
-            -url=jdbc:mariadb://127.0.0.1:3307/calculator
+            -url=jdbc:mariadb://127.0.0.1:3307/calculator \
             -user=user -password=password migrate
