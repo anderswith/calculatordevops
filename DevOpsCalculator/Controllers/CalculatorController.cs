@@ -26,18 +26,16 @@ public class CalculatorController : ControllerBase
     {
 
         
+        if (string.IsNullOrEmpty(operation))
+        {
+            ModelState.AddModelError("operation", "Operation is required.");
+            return BadRequest(ModelState); // Return BadRequest with ModelState errors
+        }
+    
+        // Continue processing if the model is valid
         var cachedResult = _cachedCalculator.GetCachedResult<int>(a, b, operation);
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        if (cachedResult == null)
-        {
-            return NotFound("No cached result found.");
-        }
-        
-        return Ok(cachedResult);
-        
+        return cachedResult == null ? NotFound("No cached result found.") : Ok(cachedResult);
+
     }
 
     [ProducesResponseType(typeof(List<>), 200)]  // 200 OK, returning a list
