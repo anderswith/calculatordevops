@@ -207,8 +207,8 @@ namespace DevOpsCalculator.Tests
         [Test]
         public void GetCachedResult_ReturnsBadRequest_WhenModelIsInvalid()
         {
-            // Arrange: Simulate an invalid query by passing `null` values for required parameters
-            var result = _controller.GetCachedResult(1, null, null);
+            // Arrange: Simulate an invalid query by passing an empty string for the required `operation`
+            var result = _controller.GetCachedResult(1, null, ""); // Use an empty string instead of null for `operation`
 
             // Act: The result should be a BadRequestObjectResult if the model is invalid
             var badRequestResult = result.Result as BadRequestObjectResult;

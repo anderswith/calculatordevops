@@ -11,7 +11,9 @@ public class Calculation
     public int? B { get; set; }
     public int Result { get; set; }
     
-    private string Operation { get; }
+    public string? Operation { get; }
+    
+    
     
     
 }
