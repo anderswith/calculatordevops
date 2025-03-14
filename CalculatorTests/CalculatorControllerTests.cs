@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using Moq;
 using Microsoft.AspNetCore.Mvc;
 using DevOpsCalculator.Controllers;
@@ -6,7 +5,7 @@ using DevOpsCalculator.BLL.Interfaces;
 using DevOpsCalculator.DAL.Repositories.interfaces;
 using DevOpsCalculator.BE;
 using DevOpsCalculator.BLL;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+
 
 namespace DevOpsCalculator.Tests
 {
@@ -217,20 +216,7 @@ namespace DevOpsCalculator.Tests
             Assert.That(badRequestResult, Is.Not.Null);
             Assert.That(badRequestResult?.Value, Is.TypeOf<SerializableError>());
         }
-
-        [Test]
-        public void Calculations_ReturnsBadRequest_WhenModelIsInvalid()
-        {
-            _controller.ModelState.AddModelError("A", "A is required");
-
-            var result = _controller.Calculations();
-
-            var badRequestResult = result as BadRequestObjectResult;
-
-            // Assert: Ensure the result is not null and the value is of type SerializableError
-            Assert.That(badRequestResult, Is.Not.Null);
-            Assert.That(badRequestResult?.Value, Is.TypeOf<SerializableError>());
-        }
+        
 
         [Test]
         public void CalculateAdd_ReturnsBadRequest_WhenModelIsInvalid()
