@@ -140,7 +140,7 @@ jobs:
           docker build \
           -t ghcr.io/${{ github.repository }}:stagins \
           -t ghcr.io/${{ github.repository }}:${{ steps.semver-app.outputs.version}} \
-          -t calculatordevops/docker/Dockerfile \
+          -f calculatordevops/docker/Dockerfile \
           .
           docker push ghcr.io/${{ github.repository }} --all-tags
           
