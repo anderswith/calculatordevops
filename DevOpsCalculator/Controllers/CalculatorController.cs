@@ -21,21 +21,26 @@ public class CalculatorController : ControllerBase
         _cachedCalculator = cachedCalculator;
     }
     
-    [HttpGet("[action]")]
+    [HttpGet("GetCachedResult")]
     public ActionResult<CachedCalculator.Calculation<int>> GetCachedResult(int a, int? b, string operation)
     {
-
-        
         if (string.IsNullOrEmpty(operation))
         {
             ModelState.AddModelError("operation", "Operation is required.");
             return BadRequest(ModelState); // Return BadRequest with ModelState errors
         }
-    
-        // Continue processing if the model is valid
-        var cachedResult = _cachedCalculator.GetCachedResult<int>(a, b, operation);
-        return cachedResult == null ? NotFound("No cached result found.") : Ok(cachedResult);
 
+        Console.WriteLine($"Received request for GetCachedResult with a={a}, b={b}, operation={operation}");
+
+        var cachedResult = _cachedCalculator.GetCachedResult<int>(a, b, operation);
+        if (cachedResult == null)
+        {
+            Console.WriteLine($"No cached result found for key.");
+            return NotFound("No cached result found.");
+        }
+
+        Console.WriteLine($"Found cached result for key.");
+        return Ok(cachedResult);
     }
 
     [ProducesResponseType(typeof(List<>), 200)]  // 200 OK, returning a list

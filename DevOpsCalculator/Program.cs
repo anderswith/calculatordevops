@@ -23,7 +23,6 @@ public class Program
         });
         builder.Services.AddScoped<ICalculatorRepository, CalculatorRepository>();
         builder.Services.AddScoped<ICalculator, CachedCalculator>();
-        builder.Services.AddScoped<ICalculator, SimpleCalculator>();
         builder.Services.AddScoped<ICachedCalculator, CachedCalculator>();
         builder.Services.AddAuthorization(options =>
         {

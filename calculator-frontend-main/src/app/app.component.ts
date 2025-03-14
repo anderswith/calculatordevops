@@ -1,34 +1,102 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import {FormsModule} from '@angular/forms';
+import { CalculatorService } from './calculator.service';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import {log} from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, FormsModule],
   templateUrl: './app.component.html',
   standalone: true,
-  styleUrl: './app.component.css'
+  imports: [
+    FormsModule,
+    CommonModule
+  ],
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'calculator-frontend';
-  isCached: boolean = false;
-  number1: any;
-  number2: any;
-  result: string | undefined;
-  protected readonly history = history;
-  selectedOperation: string | undefined;
-  primeNumber: any;
-  factorialNumber: any;
+  public isCached: boolean = false;
+  public number1: number = 0;
+  public number2: number = 0;
+  public resultCalculate: number | string = '';
+  public resultCheckPrime: string = '';
+  public resultFactorial: string = '';
+  public history: string[] = [];
+  public selectedOperation: string = '';
+  public primeNumber: number | null = null;
+  public factorialNumber: number | null = null;
 
-  calculate(add: string | undefined) {
+  constructor(private calculatorService: CalculatorService) {}
 
+  ngOnInit() {
+    this.fetchHistory();
+  }
+
+  calculate() {
+    if (this.number1 !== null && this.number2 !== null) {
+      console.log(`Operation: ${this.selectedOperation}, Number1: ${this.number1}, Number2: ${this.number2}`);
+      if (this.isCached) {
+        this.calculatorService.getCachedResult(this.number1, this.number2, this.selectedOperation)
+          .subscribe(
+            res => {
+              console.log("Cached Result:", res);
+              this.resultCalculate = res.result;
+              this.fetchHistory();
+            },
+            err => {
+              console.error("Error fetching cached result:", err);
+              this.resultCalculate = 'No cached result found.';
+            }
+          );
+
+      } else {
+        this.calculatorService.calculate(this.selectedOperation, this.number1, this.number2)
+          .subscribe(
+            res => {
+              console.log("Calculation Result:", res);
+              this.resultCalculate = res;
+              this.fetchHistory();
+            },
+            err => {
+              console.error("Error calculating result:", err);
+              this.resultCalculate = 'Error calculating result.';
+            }
+          );
+
+      }
+    } else {
+      console.error("Number1 or Number2 is null");
+    }
   }
 
   checkPrime() {
-
+    if (this.primeNumber !== null) {
+      this.calculatorService.checkPrime(this.primeNumber)
+        .subscribe(res => this.resultCheckPrime = res ? `${this.primeNumber} is prime` : `${this.primeNumber} is not prime`);
+      this.fetchHistory()
+    }
   }
 
   calculateFactorial() {
+    if (this.factorialNumber !== null) {
+      this.calculatorService.calculateFactorial(this.factorialNumber)
+        .subscribe(res => this.resultFactorial = `Factorial: ${res}`);
+      this.fetchHistory();
+    }
+  }
 
+  fetchHistory() {
+    this.calculatorService.getHistory()
+      .subscribe(
+        res => {
+          console.log("History API Response:", res); // Debugging
+          this.history = res.map(entry => entry.calcString); // Extract and store only the calcString data
+        },
+        err => {
+          console.error("Error fetching history:", err);
+          this.history = ["Error loading history."];
+        }
+      );
   }
 }
+

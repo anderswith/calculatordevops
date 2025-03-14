@@ -2,18 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0145c805-0f33-418a-9614-bde718eb8881" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/obj/CalculatorTests.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/CalculatorTests.csproj.nuget.dgspec.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net8.0/CalculatorTests.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net8.0/CalculatorTests.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net8.0/CalculatorTests.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net8.0/CalculatorTests.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/project.nuget.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/obj/rider.project.model.nuget.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/obj/rider.project.restore.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net8.0/CalculatorTests.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net8.0/CalculatorTests.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DevOpsCalculator/BLL/CachedCalculator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../DevOpsCalculator/BLL/CachedCalculator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DevOpsCalculator/Controllers/CalculatorController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../DevOpsCalculator/Controllers/CalculatorController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DevOpsCalculator/bin/Debug/net8.0/DevOpsCalculator.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../DevOpsCalculator/bin/Debug/net8.0/DevOpsCalculator.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DevOpsCalculator/bin/Debug/net8.0/DevOpsCalculator.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../DevOpsCalculator/bin/Debug/net8.0/DevOpsCalculator.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DevOpsCalculator/bin/Debug/net8.0/DevOpsCalculator.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../DevOpsCalculator/bin/Debug/net8.0/DevOpsCalculator.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../DevOpsCalculator/obj/Debug/net8.0/DevOpsCalculator.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../DevOpsCalculator/obj/Debug/net8.0/DevOpsCalculator.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../DevOpsCalculator/obj/Debug/net8.0/DevOpsCalculator.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../DevOpsCalculator/obj/Debug/net8.0/DevOpsCalculator.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../DevOpsCalculator/obj/DevOpsCalculator.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/../DevOpsCalculator/obj/DevOpsCalculator.csproj.nuget.dgspec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../DevOpsCalculator/obj/DevOpsCalculator.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/../DevOpsCalculator/obj/DevOpsCalculator.csproj.nuget.g.props" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../DevOpsCalculator/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/../DevOpsCalculator/obj/project.assets.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../DevOpsCalculator/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../DevOpsCalculator/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DevOpsCalculator/obj/Debug/net8.0/DevOpsCalculator.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../DevOpsCalculator/obj/Debug/net8.0/DevOpsCalculator.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DevOpsCalculator/obj/Debug/net8.0/DevOpsCalculator.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../DevOpsCalculator/obj/Debug/net8.0/DevOpsCalculator.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DevOpsCalculator/obj/Debug/net8.0/DevOpsCalculator.sourcelink.json" beforeDir="false" afterPath="$PROJECT_DIR$/../DevOpsCalculator/obj/Debug/net8.0/DevOpsCalculator.sourcelink.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DevOpsCalculator/obj/Debug/net8.0/apphost.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../DevOpsCalculator/obj/Debug/net8.0/apphost.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DevOpsCalculator/obj/Debug/net8.0/ref/DevOpsCalculator.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../DevOpsCalculator/obj/Debug/net8.0/ref/DevOpsCalculator.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DevOpsCalculator/obj/Debug/net8.0/refint/DevOpsCalculator.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../DevOpsCalculator/obj/Debug/net8.0/refint/DevOpsCalculator.dll" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,34 +27,34 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "anderswith"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;anderswith&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/anderswith/calculatordevops.git",
-    "accountId": "5c8bfc2c-e41c-4d2a-a4f1-877b5187e979"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/anderswith/calculatordevops.git&quot;,
+    &quot;accountId&quot;: &quot;5c8bfc2c-e41c-4d2a-a4f1-877b5187e979&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 7
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="2uGZHM410VOufDCQnDIeNxSfpud" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -60,6 +64,7 @@
       <option name="presentableId" value="Default" />
       <updated>1741876782215</updated>
       <workItem from="1741876783276" duration="9000" />
+      <workItem from="1741968022493" duration="13000" />
     </task>
     <servers />
   </component>

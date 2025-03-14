@@ -8,7 +8,7 @@ public class CachedCalculator : ICalculator, ICachedCalculator
 {
     private readonly ICalculatorRepository _repository;
     private readonly SimpleCalculator _calculator;
-    private readonly Dictionary<string, Calculation> _cache = new();
+    private readonly Dictionary<string, object> _cache = new();
 
     public CachedCalculator(ICalculatorRepository repository)
     {
@@ -17,7 +17,14 @@ public class CachedCalculator : ICalculator, ICachedCalculator
     }
     public int Add(int a, int b)
     {
-        var calc = StoreInCache(_calculator.Add(a, b), a, b);
+        Console.WriteLine($"Attempting to add {a} and {b}");
+    
+        var result = _calculator.Add(a, b);
+        Console.WriteLine($"Raw result from _calculator.Add: {result}");
+
+        var calc = StoreInCache(result, a, b);
+        Console.WriteLine($"Stored in cache: {calc.GetKey()} with result {calc.Result}");
+
         return calc.Result;
     }
 
@@ -50,23 +57,47 @@ public class CachedCalculator : ICalculator, ICachedCalculator
         var calc = StoreInCache(_calculator.IsPrime(candidate), candidate);
         return calc.Result;
     }
-    public Calculation<T>? GetCachedResult<T>(int a, int? b = null, [CallerMemberName]string operation = "")
+    public Calculation<T>? GetCachedResult<T>(int a, int? b = null, [CallerMemberName] string operation = "")
     {
         var calc = new Calculation<T>(default, operation, a, b);
-        if (_cache.ContainsKey(calc.GetKey()))
+        var cacheKey = calc.GetKey();  // Generate the cache key
+
+        Console.WriteLine($"Searching cache for key: {cacheKey}");
+
+        // Try to get the value from the cache using TryGetValue for better error handling
+        if (_cache.TryGetValue(cacheKey, out var cachedObject))
         {
-            return (Calculation<T>?)_cache[calc.GetKey()];
+            // Check if the cached object is of the correct type before accessing it
+            if (cachedObject is Calculation<T> cachedCalculation)
+            {
+                Console.WriteLine($"Cache hit: {cacheKey} = {cachedCalculation.Result}");
+                return cachedCalculation;
+            }
+            else
+            {
+                // Log the issue if the cache item is of a different type
+                Console.WriteLine($"Cache key {cacheKey} found, but it was not of type Calculation<{typeof(T).Name}>.");
+            }
         }
+        else
+        {
+            // Cache miss log
+            Console.WriteLine($"Cache miss for key: {cacheKey}");
+        }
+
         return null;
     }
 
-    private Calculation<T> StoreInCache<T>(T result, int a, int? b = null, [CallerMemberName] string operation = "")
+    public Calculation<T> StoreInCache<T>(T result, int a, int? b = null, [CallerMemberName] string operation = "")
     {
         var calc = new Calculation<T>(result, operation, a, b);
-        calc.Result = result;
-        _cache.Add(calc.GetKey(), calc);
+        var key = calc.GetKey();  // Get the key
+        Console.WriteLine($"Storing in cache: Key = {key}, Value = {result}");
+    
+        _cache.Add(key, (object)calc);  // Store the calculation object in the cache
         return calc;
     }
+
 
     public class Calculation
     {
@@ -84,13 +115,20 @@ public class CachedCalculator : ICalculator, ICachedCalculator
 
         public string GetKey()
         {
-            return string.Concat(A, Operation, B);
+            Console.WriteLine($"Generating cache key for A={A}, Operation={Operation}, B={B?.ToString() ?? "null"}");
+            return string.Concat(A, Operation, B?.ToString() ?? "null");
         }
+
     }
 
-    public class Calculation<T>(T? result, string operation, int a, int? b = null)
-        : Calculation(operation, a, b)
+    public class Calculation<T> : Calculation
     {
-        public T? Result { get; set; } = result;
+        public T Result { get; set; }
+
+        public Calculation(T result, string operation, int a, int? b = null)
+            : base(operation, a, b)
+        {
+            Result = result;
+        }
     }
 }
