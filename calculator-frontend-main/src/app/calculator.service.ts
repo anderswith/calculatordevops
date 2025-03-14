@@ -10,16 +10,17 @@ export class CalculatorService {
 
   constructor(private http: HttpClient) { }
 
-  calculate(operation: string, a: number | undefined, b?: number | undefined): Observable<number> {
-    console.log("Calculating:", operation, a, b); // Debugging
-    let url = `${this.apiUrl}/Calculate${operation}`;
-    let body = { a, b };
-
-    console.log("Sending to API:", body); // Debugging
-
-    return this.http.post<number>(url, body).pipe(
-      tap(response => console.log("API Response:", response)) // Log the response
-    );
+  calculate(operation: string, a: number, b: number): Observable<number> {
+    console.log("Calculating:", operation, a, b);
+    const url = `${this.apiUrl}/Calculate${operation}`;
+    const params = new HttpParams()
+      .set('a', a.toString())
+      .set('b', b.toString());
+    console.log("Sending to API:", params.toString());
+    return this.http.post<number>(url, null, { params })
+      .pipe(
+        tap(response => console.log("API Response:", response))
+      );
   }
 
 
@@ -37,14 +38,26 @@ export class CalculatorService {
     return this.http.get<any>(`${this.apiUrl}/GetCachedResult`, { params });
   }
 
-  checkPrime(n: number | undefined): Observable<boolean> {
-    let body = { candidate: n };
-    return this.http.post<boolean>(`${this.apiUrl}/CalculateIsPrime`, body);
+  checkPrime(n: number): Observable<boolean> {
+    console.log("Checking prime for:", n);
+    const url = `${this.apiUrl}/CalculateIsPrime`;
+    const params = new HttpParams().set('candidate', n.toString());
+    console.log("Sending to API:", params.toString());
+    return this.http.post<boolean>(url, null, { params })
+      .pipe(
+        tap(response => console.log("API Response:", response))
+      );
   }
 
-  calculateFactorial(n: number | undefined): Observable<number> {
-    let body = { n };
-    return this.http.post<number>(`${this.apiUrl}/CalculateFactorial`, body);
+  calculateFactorial(n: number): Observable<number> {
+    console.log("Calculating factorial for:", n);
+    const url = `${this.apiUrl}/CalculateFactorial`;
+    const params = new HttpParams().set('n', n.toString());
+    console.log("Sending to API:", params.toString());
+    return this.http.post<number>(url, null, { params })
+      .pipe(
+        tap(response => console.log("API Response:", response))
+      );
   }
 
   getHistory(): Observable<any[]> {
