@@ -24,7 +24,7 @@ public class CalculatorRepository : ICalculatorRepository
             .Select(c => new Calculation
             {
                 CalculationId = c.CalculationId,
-                CalcString = c.CalcString ?? "", // Ensure non-null string
+                CalcString = c.CalcString, 
                 A = c.A ?? 0,  // Default to 0 if NULL
                 B = c.B ?? 0,  // Default to 0 if NULL
                 Result = c.Result ?? 0,  // Default to 0 if NULL
