@@ -40,7 +40,8 @@ namespace DevOpsCalculator.Tests
 
             // Assert
             var actionResult = result.Result as NotFoundObjectResult;
-            Assert.That(expected, Is.EqualTo(actionResult.Value));
+            Assert.That(actionResult, Is.Not.Null, "Expected NotFoundObjectResult, but the result is null.");
+            Assert.That(actionResult?.Value, Is.EqualTo(expected));
         }
 
         [Test]
@@ -57,7 +58,8 @@ namespace DevOpsCalculator.Tests
 
             // Assert
             var actionResult = result.Result as OkObjectResult;
-            Assert.That(cachedResult, Is.EqualTo(actionResult.Value));
+            Assert.That(actionResult, Is.Not.Null, "Expected OkObjectResult, but the result is null.");
+            Assert.That(actionResult?.Value, Is.EqualTo(cachedResult));
         }
 
         [Test]
@@ -73,7 +75,9 @@ namespace DevOpsCalculator.Tests
 
             // Assert
             var actionResult = result as OkObjectResult;
-            Assert.That(calculations, Is.EqualTo(actionResult.Value));
+            Assert.That(actionResult, Is.Not.Null, "Expected OkObjectResult, but the result is null.");
+            Assert.That(actionResult?.Value, Is.EqualTo(calculations));
+            
         }
 
         [Test]
@@ -89,7 +93,8 @@ namespace DevOpsCalculator.Tests
 
             // Assert
             var actionResult = result as OkObjectResult;
-            Assert.That(expected, Is.EqualTo(actionResult.Value));
+            Assert.That(actionResult, Is.Not.Null, "Expected OkObjectResult, but the result is null.");
+            Assert.That(actionResult?.Value, Is.EqualTo(expected));
         }
 
         [Test]
@@ -110,7 +115,7 @@ namespace DevOpsCalculator.Tests
             Assert.IsNotNull(okResult, "Expected OkObjectResult, but the result is null.");
 
             // Assert: Check that the result value is 15 (the expected sum)
-            Assert.That(expected, Is.EqualTo(okResult?.Value));
+            Assert.That(okResult?.Value, Is.EqualTo(expected));
         }
         
 
@@ -127,7 +132,8 @@ namespace DevOpsCalculator.Tests
 
             // Assert
             var actionResult = result as OkObjectResult;
-            Assert.That(expected, Is.EqualTo(actionResult.Value));
+            Assert.That(actionResult, Is.Not.Null, "Expected OkObjectResult, but the result is null.");
+            Assert.That(actionResult?.Value, Is.EqualTo(expected));
         }
 
         [Test]
@@ -143,7 +149,8 @@ namespace DevOpsCalculator.Tests
 
             // Assert
             var actionResult = result as OkObjectResult;
-            Assert.That(expected, Is.EqualTo(actionResult.Value));
+            Assert.That(actionResult, Is.Not.Null, "Expected OkObjectResult, but the result is null.");
+            Assert.That(actionResult?.Value, Is.EqualTo(expected));
         }
 
         [Test]
@@ -159,7 +166,8 @@ namespace DevOpsCalculator.Tests
 
             // Assert
             var actionResult = result as OkObjectResult;
-            Assert.That(expected, Is.EqualTo(actionResult.Value));
+            Assert.That(actionResult, Is.Not.Null, "Expected OkObjectResult, but the result is null.");
+            Assert.That(actionResult?.Value, Is.EqualTo(expected));
         }
 
         [Test]
@@ -175,7 +183,8 @@ namespace DevOpsCalculator.Tests
 
             // Assert
             var actionResult = result as OkObjectResult;
-            Assert.That(expected, Is.EqualTo(actionResult.Value));
+            Assert.That(actionResult, Is.Not.Null, "Expected OkObjectResult, but the result is null.");
+            Assert.That(actionResult?.Value, Is.EqualTo(expected));
         }
 
         [Test]
