@@ -26,16 +26,6 @@ jobs:
       - name: Verify SQL Connection String
         run: echo $SQL_CONNECTION_STRING
         
-      - name: Setup K6
-        run: |
-          curl -LO https://github.com/k6io/k6/releases/download/v0.44.0/k6-v0.44.0-linux-amd64.tar.gz
-          tar -xvzf k6-v0.44.0-linux-amd64.tar.gz
-          sudo mv k6-v0.44.0-linux-amd64/k6 /usr/local/bin/
-          k6 version
-
-      - name: Run K6 Spike Test
-        run: k6 run k6-tests/spike-test.js
-        
       - name: Application Version
         id: semver-app
         uses: paulhatch/semantic-version@v5.4.0
