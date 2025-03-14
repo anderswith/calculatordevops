@@ -36,6 +36,31 @@ jobs:
 
       - name: Display Version
         run: echo "Generated version is ${{ steps.semver-app.outputs.version}}"
+        
+      - name: Log in to GHCR
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: build and push docker image
+        run: |
+          docker build \
+          -t ghcr.io/${{ github.repository }}:stagins \
+          -t ghcr.io/${{ github.repository }}:${{ steps.semver-app.outputs.version}} \
+          -t DevOpsCalculator/docker/Dockerfile \
+          .
+          docker push ghcr.io/${{ github.repository }} --all-tags
+          
+      - name: Create release notes
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ steps.semver-app.outputs.version }}
+          generateReleaseNotes: true
+          body: |
+            This release includes the following container image:
+            http://ghcr.io/${{ github.repository }}:${{ steps.semver-app.outputs.version }}
 
       - name: Run unit tests
         run: |
