@@ -43,29 +43,7 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          
-      
-          
-      - name: Deliver Compose file to staging server
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ vars.STAGING_SERVER_IP }}
-          username: ${{ vars.STAGING_SERVER_USERNAME }}
-          key: ${{ secrets.STAGING_SERVER_SSH_KEY }}
-          source: "docker-compose.yml"
-          target: dowa/
-
-      - name: Deliver database migrations to staging server
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ vars.STAGING_SERVER_IP }}
-          username: ${{ vars.STAGING_SERVER_USERNAME }}
-          key: ${{ secrets.STAGING_SERVER_SSH_KEY }}
-          source: "dbmigration/*"  # Corrected path
-          target: "dowa/dbmigration"  # Change based on your remote structure
-          overwrite: true
-          debug: true
-          
+  
       - name: Create release notes
         uses: ncipollo/release-action@v1
         with:
@@ -135,6 +113,25 @@ jobs:
           dotnet sonarscanner end \
             /d:sonar.token="${{secrets.SECRET_SONAR_TOKEN}}"
           
+      - name: Deliver Compose file to staging server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ vars.STAGING_SERVER_IP }}
+          username: ${{ vars.STAGING_SERVER_USERNAME }}
+          key: ${{ secrets.STAGING_SERVER_SSH_KEY }}
+          source: "docker-compose.yml"
+          target: dowa/
+
+      - name: Deliver database migrations to staging server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ vars.STAGING_SERVER_IP }}
+          username: ${{ vars.STAGING_SERVER_USERNAME }}
+          key: ${{ secrets.STAGING_SERVER_SSH_KEY }}
+          source: "dbmigration/*"  # Corrected path
+          target: "dowa/dbmigration"  # Change based on your remote structure
+          overwrite: true
+          debug: true
           
       - name: build and push docker image
         run: |
@@ -144,4 +141,6 @@ jobs:
           -t calculatordevops/docker/Dockerfile \
           .
           docker push ghcr.io/${{ github.repository }} --all-tags
+          
+        
    
