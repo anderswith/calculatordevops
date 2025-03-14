@@ -44,14 +44,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           
-      - name: build and push docker image
-        run: |
-          docker build \
-          -t ghcr.io/${{ github.repository }}:stagins \
-          -t ghcr.io/${{ github.repository }}:${{ steps.semver-app.outputs.version}} \
-          -t calculatordevops/docker/Dockerfile \
-          .
-          docker push ghcr.io/${{ github.repository }} --all-tags
+      
           
       - name: Deliver Compose file to staging server
         uses: appleboy/scp-action@v0.1.7
@@ -142,6 +135,13 @@ jobs:
           dotnet sonarscanner end \
             /d:sonar.token="${{secrets.SECRET_SONAR_TOKEN}}"
           
-      
-      
+          
+      - name: build and push docker image
+        run: |
+          docker build \
+          -t ghcr.io/${{ github.repository }}:stagins \
+          -t ghcr.io/${{ github.repository }}:${{ steps.semver-app.outputs.version}} \
+          -t calculatordevops/docker/Dockerfile \
+          .
+          docker push ghcr.io/${{ github.repository }} --all-tags
    
