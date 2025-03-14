@@ -100,7 +100,7 @@ jobs:
             /d:sonar.token="${{secrets.SECRET_SONAR_TOKEN}}"
     
       - name: List source directory contents
-        run: ls -la calculatordevops/docker/
+        run: ls -la docker/
         
       - name: Deliver Compose file to staging server
         uses: appleboy/scp-action@v0.1.7
@@ -108,7 +108,7 @@ jobs:
           host: ${{ vars.STAGING_SERVER_IP }}
           username: ${{ vars.STAGING_SERVER_USERNAME }}
           key: ${{ secrets.STAGING_SERVER_SSH_KEY }}
-          source: "calculatordevops/docker/docker-compose.yml"
+          source: "docker/docker-compose.yml"
           target: "dowa/"
           debug: true
 
