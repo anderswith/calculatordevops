@@ -99,7 +99,7 @@ jobs:
           dotnet sonarscanner end \
             /d:sonar.token="${{secrets.SECRET_SONAR_TOKEN}}"
     
-    
+
       - name: Deliver Compose file to staging server
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -107,7 +107,8 @@ jobs:
           username: ${{ vars.STAGING_SERVER_USERNAME }}
           key: ${{ secrets.STAGING_SERVER_SSH_KEY }}
           source: "calculatordevops/docker/docker-compose.yml"
-          target: dowa/
+          target: "dowa/"
+          debug: true
 
       - name: Deliver database migrations to staging server
         uses: appleboy/scp-action@v0.1.7
