@@ -18,13 +18,6 @@ jobs:
           dotnet tool install --global dotnet-reportgenerator-globaltool
           dotnet tool install --global dotnet-stryker
           dotnet tool install -g dotnet-sonarscanner
-
-      - name: Set SQL Connection String
-        run: |
-          echo "SQL_CONNECTION_STRING=${{ secrets.SQL_CONNECTION_STRING }}" >> $GITHUB_ENV
-
-      - name: Verify SQL Connection String
-        run: echo $SQL_CONNECTION_STRING
         
       - name: Application Version
         id: semver-app
@@ -36,8 +29,6 @@ jobs:
 
       - name: Display Version
         run: echo "Generated version is ${{ steps.semver-app.outputs.version}}"
-        
-      
 
       - name: Run unit tests
         run: |
