@@ -11,7 +11,7 @@ COPY ./calculator-frontend-main/package*.json ./
 RUN npm install
 
 # Kopier hele frontend-koden ind i containeren
-COPY ./calculator-frontend-main /app
+COPY ../calculator-frontend-main /app
 
 # Byg frontend (hvis nødvendigt)
 RUN npm run build
