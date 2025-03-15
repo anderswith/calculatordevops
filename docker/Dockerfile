@@ -5,7 +5,7 @@ FROM node:18 AS build
 WORKDIR /app
 
 # Kopier package.json og package-lock.json (hvis du har én) til containeren
-COPY ./calculator-frontend-main/package*.json ./
+COPY . /app
 
 # Installer afhængigheder
 RUN npm install
