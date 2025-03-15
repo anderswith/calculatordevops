@@ -1,5 +1,5 @@
 # Brug Node.js som base image
-FROM node:16 AS build
+FROM node:18 AS build
 
 # Definer arbejdsmappe i containeren
 WORKDIR /app
