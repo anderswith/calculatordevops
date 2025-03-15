@@ -92,16 +92,6 @@ jobs:
     
       - name: List source directory contents
         run: ls -la docker/
-        
-      - name: Deliver Compose file to staging server
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ vars.STAGING_SERVER_IP }}
-          username: ${{ vars.STAGING_SERVER_USERNAME }}
-          key: ${{ secrets.STAGING_SERVER_SSH_KEY }}
-          source: "docker/docker-compose.yml"
-          target: "dowa/"
-          debug: true
 
       - name: Deliver database migrations to staging server
         uses: appleboy/scp-action@v0.1.7
@@ -122,15 +112,24 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       
 
-      - name: Build and push Docker image for Frontend
-        run: |
-          cd calculator-frontend-main
-          docker build -t ghcr.io/${{ github.repository_owner }}/frontend:${{ github.sha }} -f calculatordevops/docker/Dockerfile .
-          docker push ghcr.io/${{ github.repository_owner }}/frontend:${{ github.sha }}
-   
-
       - name: Build and push Docker image for Backend
         run: |
           cd DevOpsCalculator
           docker build -t ghcr.io/${{ github.repository_owner }}/backend:${{ github.sha }} -f calculatordevops/docker/BackEndDockerfile .
           docker push ghcr.io/${{ github.repository_owner }}/backend:${{ github.sha }}
+          
+      - name: Build and push Docker image for Frontend
+        run: |
+          cd calculator-frontend-main
+          docker build -t ghcr.io/${{ github.repository_owner }}/frontend:${{ github.sha }} -f calculatordevops/docker/Dockerfile .
+          docker push ghcr.io/${{ github.repository_owner }}/frontend:${{ github.sha }}
+          
+      - name: Deliver Compose file to staging server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ vars.STAGING_SERVER_IP }}
+          username: ${{ vars.STAGING_SERVER_USERNAME }}
+          key: ${{ secrets.STAGING_SERVER_SSH_KEY }}
+          source: "docker/docker-compose.yml"
+          target: "dowa/"
+          debug: true
