@@ -121,7 +121,7 @@ jobs:
       - name: Build and push Docker image for Backend
         run: |
           cd docker
-          docker build -t ghcr.io/${{ github.repository_owner }}/backend:${{ github.sha }} -f BackEndDockerfile .
+          docker build -t ghcr.io/${{ github.repository_owner }}/backend:${{ github.sha }} -f docker/BackEndDockerfile .
           docker push ghcr.io/${{ github.repository_owner }}/backend:${{ github.sha }}
           
       - name: Deliver Compose file to staging server
