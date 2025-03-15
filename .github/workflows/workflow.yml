@@ -109,7 +109,7 @@ jobs:
           host: ${{ vars.STAGING_SERVER_IP }}
           username: ${{ vars.STAGING_SERVER_USERNAME }}
           key: ${{ secrets.STAGING_SERVER_SSH_KEY }}
-          source: "calculatordevops/dbmigration/*"  # Corrected path
+          source: "dbmigration/*"
           target: "dowa/dbmigration"  # Change based on your remote structure
           overwrite: true
           debug: true
