@@ -110,19 +110,19 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      
+
+
+      - name: Build and push Docker image for Frontend
+        run: |
+          cd docker
+          docker build -t ghcr.io/${{ github.repository_owner }}/frontend:${{ github.sha }} -f Dockerfile .
+          docker push ghcr.io/${{ github.repository_owner }}/frontend:${{ github.sha }}
 
       - name: Build and push Docker image for Backend
         run: |
-          cd DevOpsCalculator
-          docker build -t ghcr.io/${{ github.repository_owner }}/backend:${{ github.sha }} -f calculatordevops/docker/BackEndDockerfile .
+          cd docker
+          docker build -t ghcr.io/${{ github.repository_owner }}/backend:${{ github.sha }} -f BackEndDockerfile .
           docker push ghcr.io/${{ github.repository_owner }}/backend:${{ github.sha }}
-          
-      - name: Build and push Docker image for Frontend
-        run: |
-          cd calculator-frontend-main
-          docker build -t ghcr.io/${{ github.repository_owner }}/frontend:${{ github.sha }} -f calculatordevops/docker/Dockerfile .
-          docker push ghcr.io/${{ github.repository_owner }}/frontend:${{ github.sha }}
           
       - name: Deliver Compose file to staging server
         uses: appleboy/scp-action@v0.1.7
