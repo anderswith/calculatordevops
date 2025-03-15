@@ -133,15 +133,18 @@ jobs:
           docker build -t ghcr.io/${{ github.repository_owner }}/frontend:${{ github.sha }} .
           docker push ghcr.io/${{ github.repository_owner }}/frontend:${{ github.sha }}
           
-      - name: build and push docker image
+      - name: Build and push Docker image for Backend
         run: |
-          docker build \
-          -t ghcr.io/${{ github.repository }}:stagins \
-          -t ghcr.io/${{ github.repository }}:${{ steps.semver-app.outputs.version}} \
-          -f calculatordevops/docker/Dockerfile \
-          -f calculatordevops/docker/BackEndDockerfile \
-          .
-          docker push ghcr.io/${{ github.repository }} --all-tags
+          cd DevOpsCalculator/backend  # Navigér til backend-mappen
+          docker build -t ghcr.io/${{ github.repository_owner }}/backend:${{ github.sha }} .
+          docker push ghcr.io/${{ github.repository_owner }}/backend:${{ github.sha }}
+          
+          # Build and push Docker image for Frontend
+      - name: Build and push Docker image for Frontend
+        run: |
+          cd calculator-frontend-main/frontend  # Navigér til frontend-mappen
+          docker build -t ghcr.io/${{ github.repository_owner }}/frontend:${{ github.sha }} .
+          docker push ghcr.io/${{ github.repository_owner }}/frontend:${{ github.sha }}
           
         
    
