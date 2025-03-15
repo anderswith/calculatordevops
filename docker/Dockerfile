@@ -5,13 +5,13 @@ FROM node:18 AS build
 WORKDIR /app
 
 # Kopier package.json og package-lock.json (hvis du har én) til containeren
-COPY . /app
+COPY ./calculator-frontend-main/package*.json ./
 
 # Installer afhængigheder
 RUN npm install
 
 # Kopier hele frontend-koden ind i containeren
-COPY ../calculator-frontend-main /app
+COPY calculator-frontend-main /app
 
 # Byg frontend (hvis nødvendigt)
 RUN npm run build
