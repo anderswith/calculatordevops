@@ -1,33 +1,32 @@
-# Use the official .NET SDK as a build image
+# Step 1: Build the .NET app
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 
-# Set the working directory
+# Sæt arbejdsbibliotek
 WORKDIR /src
 
-# Copy the project file and restore dependencies
-COPY ["../NewProject/NewProject.csproj", "./"]
-RUN dotnet restore "./NewProject.csproj"
+# Kopiér projektfilerne
+COPY ["DevOpsCalculator/DevOpsCalculator.csproj", "./"]
 
-# Copy the rest of the application code
-COPY ../NewProject/ .
+# Restore dependencies
+RUN dotnet restore "./Backend.csproj"
 
-# Build the application
-RUN dotnet build "NewProject.csproj" -c Release -o /app/build
+# Kopiér resten af projektet
+COPY . .
 
-# Publish the application
-RUN dotnet publish "NewProject.csproj" -c Release -o /app/publish
+# Byg applikationen
+RUN dotnet publish "Backend.csproj" -c Release -o /app/publish
 
-# Use the official ASP.NET runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS runtime
+# Step 2: Run the .NET app
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 
-# Set the working directory
+# Sæt arbejdsbibliotek
 WORKDIR /app
 
-# Copy the published application from the build stage
+# Kopiér de byggede filer fra build-steget
 COPY --from=build /app/publish .
 
-# Expose port 80
+# Eksponer den port, som applikationen kører på
 EXPOSE 80
 
-# Start the application
-ENTRYPOINT ["dotnet", "NewProject.dll"]
+# Kør applikationen
+ENTRYPOINT ["dotnet", "Backend.dll"]
