@@ -3,10 +3,10 @@
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=0A49A3C4_002D63E7_002D47DC_002DBA0C_002DB78648F7B5FF_002Ff_003AProgram_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=0A49A3C4_002D63E7_002D47DC_002DBA0C_002DB78648F7B5FF_002Fd_003ABLL_002Ff_003ACachedCalculator_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=0A49A3C4_002D63E7_002D47DC_002DBA0C_002DB78648F7B5FF_002Fd_003ADAL_002Fd_003ARepositories_002Ff_003ACalculatorRepository_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=66ff58d4_002Df45d_002D4d33_002Daf5e_002Da0b84cea887e/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from CalculatorControllerTests.cs" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;Or&gt;
-    &lt;ProjectFile&gt;E29FD938-437F-4257-BE5A-E4188BFF034A/f:CalculatorControllerTests.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFile&gt;E29FD938-437F-4257-BE5A-E4188BFF034A/f:CachedCalculatorTests.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFile&gt;E29FD938-437F-4257-BE5A-E4188BFF034A/f:SimpleCalculatorTests.cs&lt;/ProjectFile&gt;
-  &lt;/Or&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=66ff58d4_002Df45d_002D4d33_002Daf5e_002Da0b84cea887e/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from CalculatorControllerTests.cs" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Or&gt;&#xD;
+    &lt;ProjectFile&gt;E29FD938-437F-4257-BE5A-E4188BFF034A/f:CalculatorControllerTests.cs&lt;/ProjectFile&gt;&#xD;
+    &lt;ProjectFile&gt;E29FD938-437F-4257-BE5A-E4188BFF034A/f:CachedCalculatorTests.cs&lt;/ProjectFile&gt;&#xD;
+    &lt;ProjectFile&gt;E29FD938-437F-4257-BE5A-E4188BFF034A/f:SimpleCalculatorTests.cs&lt;/ProjectFile&gt;&#xD;
+  &lt;/Or&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
