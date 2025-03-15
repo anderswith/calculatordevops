@@ -29,7 +29,7 @@ services:
     command: migrate
     
   backend:
-    image: ghcr.io/dit-brugernavn/backend:latest
+    image: ghcr.io/anderswith/backend:latest
     container_name: backend
     restart: always
     depends_on:
@@ -43,7 +43,7 @@ services:
       - "5000:5000"
 
   frontend:
-    image: ghcr.io/dit-brugernavn/frontend:latest
+    image: ghcr.io/anderswith/frontend:latest
     container_name: frontend
     restart: always
     depends_on:

@@ -1,29 +1,26 @@
-# Step 1: Build the Angular app
+# Brug Node.js som base image
 FROM node:16 AS build
 
-# Sæt arbejdsbibliotek
+# Definer arbejdsmappe i containeren
 WORKDIR /app
 
-# Kopier package.json og package-lock.json
-COPY package*.json ./
+# Kopier package.json og package-lock.json (hvis du har én) til containeren
+COPY ./calculator-frontend-main/package*.json ./
 
 # Installer afhængigheder
 RUN npm install
 
-# Kopier hele projektet
-COPY . .
+# Kopier hele frontend-koden ind i containeren
+COPY ./calculator-frontend-main /app
 
-# Byg Angular-applikationen for produktion
-RUN npm run build --prod
+# Byg frontend (hvis nødvendigt)
+RUN npm run build
 
-# Step 2: Serve the Angular app with Nginx
+# Brug nginx til at servere den byggede applikation
 FROM nginx:alpine
 
-# Kopiér de byggede filer fra build-steget
-COPY --from=build /app/dist/ /usr/share/nginx/html
+# Kopier de byggede filer fra build-frontend containeren
+COPY --from=build /app/build /usr/share/nginx/html
 
 # Eksponer port 80
 EXPOSE 80
-
-# Kør Nginx som default webserver
-CMD ["nginx", "-g", "daemon off;"]
