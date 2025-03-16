@@ -4,7 +4,7 @@ on:
       - main
 
 jobs:
-  update-config:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -14,8 +14,8 @@ jobs:
       - name: Set up SSH and deploy
         env:
           SSH_PRIVATE_KEY: ${{ secrets.STAGING_SERVER_SSH_KEY }}
-          SERVER_USER: ${{ vars.STAGING_SERVER_USERNAME }}
-          SERVER_IP: ${{ vars.STAGING_SERVER_IP }}
+          SERVER_USER: ${{ secrets.STAGING_SERVER_USERNAME }}
+          SERVER_IP: ${{ secrets.STAGING_SERVER_IP }}
         
         run: |
           # Set up SSH key
@@ -23,46 +23,33 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
-          # Add the server to known hosts to prevent "Host key verification failed"
-          ssh-keyscan -H $SERVER_IP >> ~/.ssh/known_hosts
-
-          # Debugging step: Check if SSH key and server details are being loaded correctly
-          echo "SERVER_USER: $SERVER_USER"
-          echo "SERVER_IP: $SERVER_IP"
-
+          # Build the Angular frontend for production
           echo "Building Angular frontend..."
           cd calculator-frontend-main
           npm install
-          npm run build --prod  # Build the Angular app for production
+          npm run build --configuration production  # Build the Angular app for production
 
-          # Ensure the frontend directory exists on the server with sudo permissions
-          echo "Ensuring the frontend directory exists on the staging server..."
-          ssh $SERVER_USER@$SERVER_IP "sudo mkdir -p /var/www/frontend"
-
-          # Ensure correct permissions for frontend directory (optional)
-          ssh $SERVER_USER@$SERVER_IP "sudo chown -R $SERVER_USER:$SERVER_USER /var/www/frontend"
-
+          # Copy frontend build files to the server's wwwroot directory
           echo "Copying frontend build files to staging server..."
-          scp -r dist/* $SERVER_USER@$SERVER_IP:/var/www/frontend/
+          scp -r dist/calculator-frontend/browser/* $SERVER_USER@$SERVER_IP:/var/www/wwwroot/
 
+          # Copy backend files to the server
           echo "Copying backend files to staging server..."
           scp -r DevOpsCalculator/* $SERVER_USER@$SERVER_IP:/home/$SERVER_USER/backend/
 
-          # SSH into the server to set up the backend
+          # SSH into the server and set everything up
           ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP << 'EOF'
             set -e  # Stop script if an error occurs
 
-            # Move to the backend directory and compile
+            # Move to the backend directory and publish the app
             cd /home/$SERVER_USER/backend
             dotnet publish -c Release -o ./publish
 
-            # Run the backend application in the background
+            # Start the backend application (example using dotnet run)
             echo "Running backend..."
             cd publish
-            nohup dotnet DevOpsCalculator.dll &  # Run in the background
+            nohup dotnet DevOpsCalculator.dll &  # Run it in the background
+          
+            # Check the status of the backend service
+            ps aux | grep 'DevOpsCalculator.
 
-            # Check status of the backend
-            ps aux | grep 'DevOpsCalculator.dll'
-
-            echo "✅ Deployment completed successfully!"
-          EOF
