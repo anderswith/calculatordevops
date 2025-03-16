@@ -123,6 +123,7 @@ jobs:
           docker build -t ghcr.io/anderswith/backend:latest -f docker/DockerfileBackEnd .
           docker push ghcr.io/anderswith/backend:latest
           
+          
       - name: Deliver Compose file to staging server
         uses: appleboy/scp-action@v0.1.7
         with:
