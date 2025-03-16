@@ -2,8 +2,6 @@ using System.Diagnostics.CodeAnalysis;
 using Moq;
 using DevOpsCalculator.BLL;
 using DevOpsCalculator.DAL.Repositories.interfaces;
-using NUnit.Framework;
-
 
 namespace DevOpsCalculator.Tests
 {
@@ -81,7 +79,7 @@ namespace DevOpsCalculator.Tests
             var expected = 5;
             _cachedCalculator.Add(2, 3); // First calculation should store in cache
             var cachedResult = _cachedCalculator.GetCachedResult<int>(2, 3, "Add");
-            Assert.IsNotNull(cachedResult);
+            Assert.That(cachedResult, Is.Not.Null);
             Assert.That(cachedResult.Result, Is.EqualTo(expected));
         }
     }
