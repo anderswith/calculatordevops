@@ -63,4 +63,4 @@ jobs:
           sudo systemctl status calculator --no-pager || exit 1
 
           echo "✅ Deployment completed successfully!"
-        EOF
+          EOF
