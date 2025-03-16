@@ -63,10 +63,6 @@
               "target": "Package",
               "version": "[3.16.0, )"
             },
-            "NUnit.Analyzers": {
-              "target": "Package",
-              "version": "[3.9.0, )"
-            },
             "NUnit3TestAdapter": {
               "target": "Package",
               "version": "[4.5.0, )"
