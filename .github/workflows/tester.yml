@@ -28,31 +28,39 @@ jobs:
 
           # Deploy application (your original steps)
           ssh -o StrictHostKeyChecking=no -v $SERVER_USER@$SERVER_IP << 'EOF'
-            set -e  # Stop script on error
+          set -e  # Stop script on error
 
-            # Ensure /var/www/calculator exists and is a Git repository
-            if [ ! -d "/var/www/calculator/.git" ]; then
-            echo "Directory /var/www/calculator not found. Cloning repository..."
-            sudo mkdir -p /var/www/calculator
-            sudo chown -R $USER:$USER /var/www/calculator
-            cd /var/www/calculator
-            git clone git@github.com:anderswith/calculatordevops.git .  # Using SSH URL to clone the repository
-            else
-            echo "Navigating to /var/www/calculator and pulling the latest code..."
-            cd /var/www/calculator
-            git pull origin main  # Pulling the latest code if the directory already exists
-            fi
-            
-            # After this, you can proceed with building and restarting the service
-            dotnet build
-            sudo systemctl daemon-reload
-            sudo systemctl restart calculator
-            sudo systemctl status calculator --no-pager
-            echo "✅ Deployment completed successfully!"
-            
-            
-            # Check the status of the application
-            sudo systemctl status calculator --no-pager || exit 1
+          # Ensure /var/www/calculator exists and is a Git repository
+          if [ ! -d "/var/www/calculator/.git" ]; then
+          echo "Directory /var/www/calculator not found. Cloning repository..."
+          
+          # Add GitHub's SSH key to known_hosts to avoid host key verification failure
+          mkdir -p ~/.ssh
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+        
+          sudo mkdir -p /var/www/calculator
+          sudo chown -R $USER:$USER /var/www/calculator
+          cd /var/www/calculator
+          
+          # Clone repository using SSH
+          git clone git@github.com:anderswith/calculatordevops.git .  # Using SSH URL to clone the repository
+          else
+          echo "Navigating to /var/www/calculator and pulling the latest code..."
+          cd /var/www/calculator
+          git pull origin main  # Pulling the latest code if the directory already exists
+          fi
+          
+          # After this, you can proceed with building and restarting the service
+          dotnet build
+          sudo systemctl daemon-reload
+          sudo systemctl restart calculator
+          sudo systemctl status calculator --no-pager
+          echo "✅ Deployment completed successfully!"
 
-            echo "✅ Deployment completed successfully!"
-          EOF
+
+
+        # Check the status of the application
+          sudo systemctl status calculator --no-pager || exit 1
+
+          echo "✅ Deployment completed successfully!"
+        EOF
