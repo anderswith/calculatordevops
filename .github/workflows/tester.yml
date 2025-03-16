@@ -23,21 +23,18 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
-          # Build the Angular project for production
           echo "Building Angular frontend..."
           cd calculator-frontend-main
           npm install
           npm run build --prod  # Build the Angular app for production
 
-          # Deploy frontend build files to the server
           echo "Copying frontend build files to staging server..."
           scp -r dist/* $SERVER_USER@$SERVER_IP:/var/www/frontend/
 
-          # Deploy backend files (Program.cs and other backend code)
           echo "Copying backend files to staging server..."
           scp -r DevOpsCalculator/* $SERVER_USER@$SERVER_IP:/home/$SERVER_USER/backend/
 
-          # SSH into the server and set everything up
+          # SSH into server to set up the backend
           ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP << 'EOF'
             set -e  # Stop script if an error occurs
 
@@ -45,15 +42,15 @@ jobs:
             cd /home/$SERVER_USER/backend
             dotnet publish -c Release -o ./publish
 
-            # Start the backend application (example: using dotnet run)
-            # If you're using a service, you can start the service here
+            # Run the backend application in the background
             echo "Running backend..."
             cd publish
-            nohup dotnet DevOpsCalculator.dll &  # Run it in the background
-          
-            # Check status of backend
+            nohup dotnet DevOpsCalculator.dll &  # Run in the background
+
+            # Check status of the backend
             ps aux | grep 'DevOpsCalculator.dll'
-          
+
             echo "✅ Deployment completed successfully!"
           EOF
+
 
