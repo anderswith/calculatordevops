@@ -13,10 +13,9 @@ jobs:
 
       - name: Set up SSH and deploy
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SERVER_USER: ${{ secrets.SERVER_USER }}
-          SERVER_IP: ${{ secrets.SERVER_IP }}
-          DATABASE_CONNECTION_STRING: ${{ secrets.DB_CONNECTION_STRING }}
+          SSH_PRIVATE_KEY: ${{ secrets.STAGING_SERVER_SSH_KEY }}
+          SERVER_USER: ${{ secrets.STAGING_SERVER_USERNAME }}
+          SERVER_IP: ${{ secrets.STAGING_SERVER_IP }}
         
         run: |
           # Set up SSH key
