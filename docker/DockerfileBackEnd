@@ -1,32 +1,33 @@
-﻿# Step 1: Build the .NET app
+﻿# Use .NET 8.0 SDK as the build environment
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 
-# Sæt arbejdsbibliotek
+# Set the working directory
 WORKDIR /src
 
-# Kopiér projektfilerne
+# Copy and restore dependencies
 COPY ["../DevOpsCalculator/DevOpsCalculator.csproj", "./"]
-
-# Restore dependencies
 RUN dotnet restore "./DevOpsCalculator.csproj"
 
-# Kopiér resten af projektet
+# Copy the rest of the project files
 COPY . .
 
-# Byg applikationen
-RUN dotnet restore "./DevOpsCalculator.csproj"
+# Build the application
+RUN dotnet build "./DevOpsCalculator.csproj" -c Release --no-restore
 
-# Step 2: Run the .NET app
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+# Publish the application to /app/publish
+RUN dotnet publish "./DevOpsCalculator.csproj" -c Release -o /app/publish --no-restore
 
-# Sæt arbejdsbibliotek
+# Use the .NET 8.0 runtime for the final container
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+
 WORKDIR /app
 
-# Kopiér de byggede filer fra build-steget
+# Copy the published application from the build step
 COPY --from=build /app/publish .
 
-# Eksponer den port, som applikationen kører på
-EXPOSE 80
+# Expose the port
+EXPOSE 8080
 
-# Kør applikationen
+# Set the entry point
 ENTRYPOINT ["dotnet", "DevOpsCalculator.dll"]
+
