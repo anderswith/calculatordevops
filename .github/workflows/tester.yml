@@ -35,6 +35,10 @@ jobs:
           npm install
           npm run build --prod  # Build the Angular app for production
 
+          # Ensure the frontend directory exists on the server
+          echo "Ensuring the frontend directory exists on the staging server..."
+          ssh $SERVER_USER@$SERVER_IP "mkdir -p /var/www/frontend"
+
           echo "Copying frontend build files to staging server..."
           scp -r dist/* $SERVER_USER@$SERVER_IP:/var/www/frontend/
 
