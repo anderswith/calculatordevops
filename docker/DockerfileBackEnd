@@ -5,17 +5,15 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 # Copy and restore dependencies
-COPY ["../DevOpsCalculator/DevOpsCalculator.csproj", "./"]
-RUN dotnet restore "./DevOpsCalculator.csproj"
-
-# Copy the rest of the project files (make sure tests are included)
+COPY ["DevOpsCalculator/DevOpsCalculator.csproj", "./DevOpsCalculator/"]
+RUN dotnet restore "./DevOpsCalculator/DevOpsCalculator.csproj"
 COPY . .
 
 # Build the application
-RUN dotnet build "./DevOpsCalculator.csproj" -c Release --no-restore
+RUN dotnet build "./DevOpsCalculator/DevOpsCalculator.csproj" -c Release --no-restore
 
 # Publish the application to /app/publish
-RUN dotnet publish "./DevOpsCalculator.csproj" -c Release -o /app/publish --no-restore
+RUN dotnet publish "./DevOpsCalculator/DevOpsCalculator.csproj" -c Release -o /app/publish --no-restore
 
 # Use the .NET 8.0 runtime for the final container
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
@@ -30,5 +28,6 @@ EXPOSE 8080
 
 # Set the entry point
 ENTRYPOINT ["dotnet", "DevOpsCalculator.dll"]
+
 
 
