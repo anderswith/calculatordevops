@@ -8,7 +8,7 @@ WORKDIR /src
 COPY ["../DevOpsCalculator/DevOpsCalculator.csproj", "./"]
 
 # Restore dependencies
-RUN dotnet restore "./Backend.csproj"
+RUN dotnet restore "./DevOpsCalculator.csproj"
 
 # Kopiér resten af projektet
 COPY . .
