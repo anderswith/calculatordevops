@@ -1383,6 +1383,9 @@
           "build/NUnit.props": {}
         }
       },
+      "NUnit.Analyzers/3.9.0": {
+        "type": "package"
+      },
       "NUnit3TestAdapter/4.5.0": {
         "type": "package",
         "build": {
@@ -4295,6 +4298,24 @@
         "nunit.nuspec"
       ]
     },
+    "NUnit.Analyzers/3.9.0": {
+      "sha512": "8bGAEljlBnzR+uU8oGQhTVKnbgBw1Mo71qjVkgzHdvtUkiB5XOIDyjAcS4KUo/j+F2Zv/xBUZRkCWXmejx4bfA==",
+      "type": "package",
+      "path": "nunit.analyzers/3.9.0",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "analyzers/dotnet/cs/nunit.analyzers.dll",
+        "docs/README.md",
+        "images/nunit_256.png",
+        "license.txt",
+        "nunit.analyzers.3.9.0.nupkg.sha512",
+        "nunit.analyzers.nuspec",
+        "tools/install.ps1",
+        "tools/uninstall.ps1"
+      ]
+    },
     "NUnit3TestAdapter/4.5.0": {
       "sha512": "s8JpqTe9bI2f49Pfr3dFRfoVSuFQyraTj68c3XXjIS/MRGvvkLnrg6RLqnTjdShX+AdFUCCU/4Xex58AdUfs6A==",
       "type": "package",
@@ -6860,6 +6881,7 @@
       "Microsoft.NET.Test.Sdk >= 17.8.0",
       "Moq >= 4.20.72",
       "NUnit >= 3.16.0",
+      "NUnit.Analyzers >= 3.9.0",
       "NUnit3TestAdapter >= 4.5.0",
       "coverlet.collector >= 6.0.0"
     ]
@@ -6925,6 +6947,10 @@
           "NUnit": {
             "target": "Package",
             "version": "[3.16.0, )"
+          },
+          "NUnit.Analyzers": {
+            "target": "Package",
+            "version": "[3.9.0, )"
           },
           "NUnit3TestAdapter": {
             "target": "Package",
