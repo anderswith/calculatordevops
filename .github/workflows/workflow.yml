@@ -140,9 +140,7 @@ jobs:
           username: ${{ vars.STAGING_SERVER_USERNAME }}
           key: ${{ secrets.STAGING_SERVER_SSH_KEY }}
           script: |
-
-            # Run docker-compose commands
-            cd dowa/docker/
+            cd dowa/
             docker compose pull
             docker compose up -d --force-recreate
 
