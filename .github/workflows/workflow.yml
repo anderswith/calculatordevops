@@ -143,8 +143,8 @@ jobs:
 
             # Run docker-compose commands
             cd dowa/docker/
-            docker-compose pull
-            docker-compose up -d --force-recreate
+            docker compose pull
+            docker compose up -d --force-recreate
 
 
 
