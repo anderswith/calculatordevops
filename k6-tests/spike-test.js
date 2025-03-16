@@ -9,7 +9,7 @@ export const options = {
     ]
 }
 export default () =>{
-    let res = http.get('http://localhost:5062/api/Calculator/Calculations') // udskiftes med staging server url 'http://staging.example.com/api/Calculator/Calculations'
+    let res = http.get('http://localhost:5000/api/Calculator/Calculations') // udskiftes med staging server url 'http://staging.example.com/api/Calculator/Calculations'
     
     check(res, {
         'is status 200': (r) => r.status === 200,
