@@ -8,12 +8,14 @@ WORKDIR /src
 COPY ["../DevOpsCalculator/DevOpsCalculator.csproj", "./"]
 RUN dotnet restore "./DevOpsCalculator.csproj"
 
-# Copy the rest of the project files
+# Copy the rest of the project files (make sure tests are included)
 COPY . .
 
-RUN dotnet restore "./CalculatorTests.csproj"
-RUN dotnet build "./CalculatorTests.csproj" -c Release --no-restore
+# Ensure the tests project is included and restore dependencies for it
+RUN dotnet restore "./CalculatorTests/CalculatorTests.csproj"
 
+# Build the test project
+RUN dotnet build "./CalculatorTests/CalculatorTests.csproj" -c Release --no-restore
 
 # Build the application
 RUN dotnet build "./DevOpsCalculator.csproj" -c Release --no-restore
@@ -34,4 +36,5 @@ EXPOSE 8080
 
 # Set the entry point
 ENTRYPOINT ["dotnet", "DevOpsCalculator.dll"]
+
 
