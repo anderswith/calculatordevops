@@ -30,26 +30,27 @@ jobs:
           ssh -o StrictHostKeyChecking=no -v $SERVER_USER@$SERVER_IP << 'EOF'
             set -e  # Stop script on error
 
-            # Ensure the directory exists
-            if [ ! -d "/var/www/calculator" ]; then
-              echo "Directory /var/www/calculator not found. Cloning repository..."
-              sudo mkdir -p /var/www/calculator
-              sudo chown -R $USER:$USER /var/www/calculator
-              cd /var/www/calculator
-              git clone https://github.com/anderswith/calculatordevops.git .  # Adjust this URL to your repo
+            # Ensure /var/www/calculator exists and is a Git repository
+            if [ ! -d "/var/www/calculator/.git" ]; then
+            echo "Directory /var/www/calculator not found. Cloning repository..."
+            sudo mkdir -p /var/www/calculator
+            sudo chown -R $USER:$USER /var/www/calculator
+            cd /var/www/calculator
+            git clone git@github.com:anderswith/calculatordevops.git .  # Using SSH URL to clone the repository
             else
-              echo "Navigating to /var/www/calculator and pulling the latest code..."
-              cd /var/www/calculator || exit 1
-              git pull origin main || exit 1
+            echo "Navigating to /var/www/calculator and pulling the latest code..."
+            cd /var/www/calculator
+            git pull origin main  # Pulling the latest code if the directory already exists
             fi
-
-            echo "Building the .NET app..."
-            dotnet build || exit 1  # Fail if build fails
-
-            echo "Reloading systemd and restarting the calculator service..."
-            sudo systemctl daemon-reload || exit 1
-            sudo systemctl restart calculator || exit 1
-
+            
+            # After this, you can proceed with building and restarting the service
+            dotnet build
+            sudo systemctl daemon-reload
+            sudo systemctl restart calculator
+            sudo systemctl status calculator --no-pager
+            echo "✅ Deployment completed successfully!"
+            
+            
             # Check the status of the application
             sudo systemctl status calculator --no-pager || exit 1
 
