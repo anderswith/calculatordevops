@@ -132,6 +132,17 @@ jobs:
           source: "docker/docker-compose.yml"
           target: "dowa/"
           debug: true
+          
+      - name: Deploy and restart services
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ vars.STAGING_SERVER_IP }}
+          username: ${{ vars.STAGING_SERVER_USERNAME }}
+          key: ${{ secrets.STAGING_SERVER_SSH_KEY }}
+          script: |
+            cd dowa/
+            docker-compose pull
+            docker-compose up -d --force-recreate
 
       - name: Setup K6
         run: |

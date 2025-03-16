@@ -6,7 +6,7 @@ import {catchError, Observable, tap, throwError} from 'rxjs';
   providedIn: 'root'
 })
 export class CalculatorService {
-  private apiUrl = 'http://localhost:5000/api/Calculator'; // Base API URL
+  private apiUrl = 'http://79.76.101.254:5000/api/Calculator'; // Base API URL
 
   constructor(private http: HttpClient) { }
 
