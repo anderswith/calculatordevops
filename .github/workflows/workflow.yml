@@ -113,15 +113,15 @@ jobs:
 
       - name: Build and push Docker image for Frontend
         run: |
-          docker build -t ghcr.io/${{ github.repository_owner }}/frontend:${{ github.sha }} -f docker/Dockerfile .
-          docker push ghcr.io/${{ github.repository_owner }}/frontend:${{ github.sha }}
+          docker build -t ghcr.io/anderswith/frontend:${{ github.sha }} -f docker/Dockerfile .
+          docker push ghcr.io/anderswith/frontend:${{ github.sha }}
 
       - name: Build and push Docker image for Backend
         run: |
           cd docker
           cd ..
-          docker build -t ghcr.io/${{ github.repository_owner }}/backend:${{ github.sha }} -f docker/DockerfileBackEnd .
-          docker push ghcr.io/${{ github.repository_owner }}/backend:${{ github.sha }}
+          docker build -t ghcr.io/anderswith/backend:${{ github.sha }} -f docker/DockerfileBackEnd .
+          docker push ghcr.io/anderswith/backend:${{ github.sha }}
 
       - name: Deliver Compose file to staging server
         uses: appleboy/scp-action@v0.1.7
