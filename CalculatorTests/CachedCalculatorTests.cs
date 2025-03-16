@@ -2,6 +2,8 @@ using System.Diagnostics.CodeAnalysis;
 using Moq;
 using DevOpsCalculator.BLL;
 using DevOpsCalculator.DAL.Repositories.interfaces;
+using NUnit.Framework;
+
 
 namespace DevOpsCalculator.Tests
 {
