@@ -103,9 +103,9 @@ jobs:
           target: "dowa/dbmigration"  # Change based on your remote structure
           overwrite: true
           debug: true
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
+ 
+
+        
       - name: Deploy til Staging Server
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
