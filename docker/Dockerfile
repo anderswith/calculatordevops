@@ -13,6 +13,10 @@ RUN npm install
 # Kopier resten af frontend-koden ind i containeren
 COPY calculator-frontend-main/ .
 
+RUN dotnet restore "./CalculatorTests.csproj"
+RUN dotnet build "./CalculatorTests.csproj" -c Release --no-restore
+
+
 # Byg frontend
 RUN npm run build
 
