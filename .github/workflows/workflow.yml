@@ -132,7 +132,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.SECRET_GITHUB_TOKEN }}
 
       - name: Build and push Docker image for Frontend
         run: |
@@ -163,23 +163,7 @@ jobs:
           username: ${{ vars.STAGING_SERVER_USERNAME }}
           key: ${{ secrets.STAGING_SERVER_SSH_KEY }}
           script: |
-            if ! command -v docker-compose &> /dev/null
-            then
-            echo "docker-compose not found. Installing..."
-            
-            # Remove any existing corrupted docker-compose installation
-            sudo rm -f /usr/local/bin/docker-compose
-            
-            # Download docker-compose
-            sudo curl -L https://github.com/docker/compose/releases/download/v2.31.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
-            
-            # Set execute permissions
-            sudo chmod +x /usr/local/bin/docker-compose
-            
-            # Validate installation
-            docker-compose --version
-            fi
-            
+
             # Run docker-compose commands
             cd dowa/docker/
             docker-compose pull
