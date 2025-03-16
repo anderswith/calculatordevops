@@ -11,6 +11,10 @@ RUN dotnet restore "./DevOpsCalculator.csproj"
 # Copy the rest of the project files
 COPY . .
 
+RUN dotnet restore "./CalculatorTests.csproj"
+RUN dotnet build "./CalculatorTests.csproj" -c Release --no-restore
+
+
 # Build the application
 RUN dotnet build "./DevOpsCalculator.csproj" -c Release --no-restore
 
