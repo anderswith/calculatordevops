@@ -100,7 +100,7 @@ jobs:
           username: ${{ vars.STAGING_SERVER_USERNAME }}
           key: ${{ secrets.STAGING_SERVER_SSH_KEY }}
           source: "dbmigration/*"
-          target: "dowa/dbmigration"  # Change based on your remote structure
+          target: "dowa/dbmigration"  
           overwrite: true
           debug: true
       
