@@ -14,27 +14,29 @@ jobs:
       - name: Set up SSH and deploy
         env:
           SSH_PRIVATE_KEY: ${{ secrets.STAGING_SERVER_SSH_KEY }}
-          SERVER_USER: ${{ vars.STAGING_SERVER_USERNAME }}
-          SERVER_IP: ${{ vars.STAGING_SERVER_IP }}
+          SERVER_USER: ${{ secrets.STAGING_SERVER_USERNAME }}
+          SERVER_IP: ${{ secrets.STAGING_SERVER_IP }}
         
         run: |
-          # Set up SSH private key
+          # Set up the SSH private key correctly
           mkdir -p ~/.ssh
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
-          # Test SSH connection first to debug
+          # Test SSH connection with debug mode
           ssh -o StrictHostKeyChecking=no -v $SERVER_USER@$SERVER_IP "echo 'SSH connection successful'"
+
+          # Deploy application (your original steps)
+          ssh -o StrictHostKeyChecking=no -v $SERVER_USER@$SERVER_IP << 'EOF'
+            set -e  # Stop script on error
           
-          if [ ! -d "/var/www/calculator" ]; then
+            # Ensure the directory exists
+            if [ ! -d "/var/www/calculator" ]; then
               echo "Directory /var/www/calculator not found. Creating it..."
               sudo mkdir -p /var/www/calculator
               sudo chown -R $USER:$USER /var/www/calculator
             fi
-          
-          # Deploy application (your original steps)
-          ssh -o StrictHostKeyChecking=no -v $SERVER_USER@$SERVER_IP << 'EOF'
-            set -e  # Stop script on error
+
             echo "Navigating to /var/www/calculator..."
             cd /var/www/calculator || exit 1  # Ensure it exists
 
@@ -53,4 +55,3 @@ jobs:
 
             echo "✅ Deployment completed successfully!"
           EOF
-
