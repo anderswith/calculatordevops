@@ -18,16 +18,33 @@ jobs:
           SERVER_IP: ${{ secrets.STAGING_SERVER_IP }}
         
         run: |
+          # Set up SSH private key
           mkdir -p ~/.ssh
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP << 'EOF'
-            set -e  # Stop scriptet ved fejl
-            cd /var/www/calculator
-            git pull origin main
-            dotnet build
-            sudo systemctl daemon-reload  # Sørg for at servicefilen er opdateret
-            sudo systemctl restart calculator
-            sudo systemctl status calculator --no-pager
+
+          # Test SSH connection first to debug
+          ssh -o StrictHostKeyChecking=no -v $SERVER_USER@$SERVER_IP "echo 'SSH connection successful'"
+
+          # Deploy application (your original steps)
+          ssh -o StrictHostKeyChecking=no -v $SERVER_USER@$SERVER_IP << 'EOF'
+            set -e  # Stop script on error
+            echo "Navigating to /var/www/calculator..."
+            cd /var/www/calculator || exit 1  # Ensure it exists
+
+            echo "Pulling latest code from main branch..."
+            git pull origin main || exit 1  # Handle errors gracefully
+
+            echo "Building the .NET app..."
+            dotnet build || exit 1  # Fail if build fails
+
+            echo "Reloading systemd and restarting the calculator service..."
+            sudo systemctl daemon-reload || exit 1
+            sudo systemctl restart calculator || exit 1
+
+            # Check the status of the application
+            sudo systemctl status calculator --no-pager || exit 1
+
             echo "✅ Deployment completed successfully!"
           EOF
+
