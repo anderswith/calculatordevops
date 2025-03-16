@@ -137,8 +137,8 @@ jobs:
       - name: Install TestCafe
         run: npm install -g testcafe
 
-      - name: Run TestCafe E2E tests
-        run: testcafe chrome e2e-tests/e2e-tests.js
+      - name: Run TestCafe E2E Tests
+        run: testcafe chrome --headless e2e-tests/e2e-tests.js
 
       - name: Upload TestCafe Results
         if: always()
