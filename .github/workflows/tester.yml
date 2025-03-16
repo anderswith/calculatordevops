@@ -1,0 +1,60 @@
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update-config:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up SSH and deploy
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+          DATABASE_CONNECTION_STRING: ${{ secrets.DB_CONNECTION_STRING }}
+        
+        run: |
+          # Set up SSH key
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+          # Build the Angular project for production
+          echo "Building Angular frontend..."
+          cd calculator-frontend-main
+          npm install
+          npm run build --prod  # Build the Angular app for production
+
+          # Deploy frontend build files to the server
+          echo "Copying frontend build files to staging server..."
+          scp -r dist/* $SERVER_USER@$SERVER_IP:/var/www/frontend/
+
+          # Deploy backend files (Program.cs and other backend code)
+          echo "Copying backend files to staging server..."
+          scp -r DevOpsCalculator/* $SERVER_USER@$SERVER_IP:/home/$SERVER_USER/backend/
+
+          # SSH into the server and set everything up
+          ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP << 'EOF'
+            set -e  # Stop script if an error occurs
+
+            # Move to the backend directory and compile
+            cd /home/$SERVER_USER/backend
+            dotnet publish -c Release -o ./publish
+
+            # Start the backend application (example: using dotnet run)
+            # If you're using a service, you can start the service here
+            echo "Running backend..."
+            cd publish
+            nohup dotnet DevOpsCalculator.dll &  # Run it in the background
+          
+            # Check status of backend
+            ps aux | grep 'DevOpsCalculator.dll'
+          
+            echo "✅ Deployment completed successfully!"
+          EOF
+
