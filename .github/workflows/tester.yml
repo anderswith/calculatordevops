@@ -1,15 +1,17 @@
+name: tester.yml
 on:
   push:
     branches:
       - main
 
 jobs:
-  update-config:
+  integration:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Repository
+      - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch all history for accurate results of code analysis
 
       - name: Set up SSH and deploy
         env:
