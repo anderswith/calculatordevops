@@ -18,7 +18,7 @@ jobs:
           dotnet tool install --global dotnet-reportgenerator-globaltool
           dotnet tool install --global dotnet-stryker
           dotnet tool install -g dotnet-sonarscanner
-        
+
       - name: Application Version
         id: semver-app
         uses: paulhatch/semantic-version@v5.4.0
@@ -55,7 +55,7 @@ jobs:
         with:
           name: stryker-report
           path: StrykerOutput
-          
+
       - name: Check Secret Variables
         run: |
           echo "Sonar URL: ${{ secrets.SECRET_SONAR_URL }}"
@@ -74,7 +74,7 @@ jobs:
 
       - name: Build
         run: dotnet build
-        
+
       - name: Run unit tests
         run: dotnet test --collect:"XPlat Code Coverage" --results-directory TestResults
 
@@ -89,7 +89,7 @@ jobs:
         run: |
           dotnet sonarscanner end \
             /d:sonar.token="${{secrets.SECRET_SONAR_TOKEN}}"
-    
+
       - name: List source directory contents
         run: ls -la docker/
 
@@ -103,7 +103,7 @@ jobs:
           target: "dowa/dbmigration"  # Change based on your remote structure
           overwrite: true
           debug: true
-          
+
       - name: Log in to GHCR
         uses: docker/login-action@v2
         with:
@@ -111,20 +111,17 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-
       - name: Build and push Docker image for Frontend
         run: |
           docker build -t ghcr.io/${{ github.repository_owner }}/frontend:${{ github.sha }} -f docker/Dockerfile .
           docker push ghcr.io/${{ github.repository_owner }}/frontend:${{ github.sha }}
-      
-      
+
       - name: Build and push Docker image for Backend
         run: |
           cd docker
           cd ..
           docker build -t ghcr.io/${{ github.repository_owner }}/backend:${{ github.sha }} -f docker/DockerfileBackEnd .
           docker push ghcr.io/${{ github.repository_owner }}/backend:${{ github.sha }}
-
 
       - name: Deliver Compose file to staging server
         uses: appleboy/scp-action@v0.1.7
@@ -135,3 +132,17 @@ jobs:
           source: "docker/docker-compose.yml"
           target: "dowa/"
           debug: true
+
+      # New steps for TestCafe
+      - name: Install TestCafe
+        run: npm install -g testcafe
+
+      - name: Run TestCafe E2E tests
+        run: testcafe chrome e2e-tests/e2e-tests.js
+
+      - name: Upload TestCafe Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: testcafe-results
+          path: testcafe-results/
