@@ -140,6 +140,13 @@ jobs:
           username: ${{ vars.STAGING_SERVER_USERNAME }}
           key: ${{ secrets.STAGING_SERVER_SSH_KEY }}
           script: |
+            if ! command -v docker-compose &> /dev/null
+            then
+            echo "docker-compose not found. Installing..."
+            # Download docker-compose (adjust the version as needed)
+            curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+            chmod +x /usr/local/bin/docker-compose
+            fi
             cd dowa/docker/
             docker-compose pull
             docker-compose up -d --force-recreate
