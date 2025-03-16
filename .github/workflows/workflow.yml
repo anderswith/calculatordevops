@@ -113,16 +113,16 @@ jobs:
 
       - name: Build and push Docker image for Frontend
         run: |
-          docker build -t ghcr.io/anderswith/frontend:${{ github.sha }} -f docker/Dockerfile .
-          docker push ghcr.io/anderswith/frontend:${{ github.sha }}
+          docker build -t ghcr.io/anderswith/frontend:latest -f docker/Dockerfile .
+          docker push ghcr.io/anderswith/frontend:latest
 
       - name: Build and push Docker image for Backend
         run: |
           cd docker
           cd ..
-          docker build -t ghcr.io/anderswith/backend:${{ github.sha }} -f docker/DockerfileBackEnd .
-          docker push ghcr.io/anderswith/backend:${{ github.sha }}
-
+          docker build -t ghcr.io/anderswith/backend:latest -f docker/DockerfileBackEnd .
+          docker push ghcr.io/anderswith/backend:latest
+          
       - name: Deliver Compose file to staging server
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -140,7 +140,7 @@ jobs:
           username: ${{ vars.STAGING_SERVER_USERNAME }}
           key: ${{ secrets.STAGING_SERVER_SSH_KEY }}
           script: |
-            cd dowa/
+            cd dowa/docker/
             docker compose pull
             docker compose up -d --force-recreate
 
