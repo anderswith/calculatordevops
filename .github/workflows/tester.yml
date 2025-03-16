@@ -23,15 +23,18 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           
-          # Add GitHub's SSH key to known_hosts to avoid host key verification failure
+          # Ensure GitHub's SSH key is added to known_hosts
           mkdir -p ~/.ssh
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          if ! grep -q github.com ~/.ssh/known_hosts; then
+            echo "Adding GitHub's SSH key to known_hosts"
+            ssh-keyscan github.com >> ~/.ssh/known_hosts
+          fi
 
           # Start SSH agent and add private key
           eval $(ssh-agent -s)
           ssh-add ~/.ssh/id_rsa
           
-          # Test SSH connection with debug mode
+          # Test SSH connection to remote server
           ssh -o StrictHostKeyChecking=no -v $SERVER_USER@$SERVER_IP "echo 'SSH connection successful'"
 
           # Deploy application (your original steps)
@@ -64,6 +67,5 @@ jobs:
           sudo systemctl status calculator --no-pager || exit 1
 
           echo "✅ Deployment completed successfully!"
-
 
 
