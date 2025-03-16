@@ -132,15 +132,13 @@ jobs:
           source: "docker/docker-compose.yml"
           target: "dowa/"
           debug: true
-          cipher: aes256-ctr  # Ensure the same encryption method is used
 
       - name: Deploy and restart services
-        uses: appleboy/ssh-action@v0.1.4
+        uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ vars.STAGING_SERVER_IP }}
           username: ${{ vars.STAGING_SERVER_USERNAME }}
           key: ${{ secrets.STAGING_SERVER_SSH_KEY }}
-          cipher: aes256-ctr  # Ensure the same encryption method is used
           script: |
             cd dowa/
             docker-compose pull
