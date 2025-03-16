@@ -164,7 +164,7 @@ jobs:
 
 
 
-- name: Setup K6
+      - name: Setup K6
         run: |
           curl -LO https://github.com/k6io/k6/releases/download/v0.44.0/k6-v0.44.0-linux-amd64.tar.gz
           tar -xvzf k6-v0.44.0-linux-amd64.tar.gz
