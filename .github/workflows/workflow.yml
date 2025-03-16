@@ -132,18 +132,21 @@ jobs:
           source: "docker/docker-compose.yml"
           target: "dowa/"
           debug: true
-          
+          cipher: aes256-ctr  # Ensure the same encryption method is used
+
       - name: Deploy and restart services
         uses: appleboy/ssh-action@v0.1.4
         with:
           host: ${{ vars.STAGING_SERVER_IP }}
           username: ${{ vars.STAGING_SERVER_USERNAME }}
           key: ${{ secrets.STAGING_SERVER_SSH_KEY }}
+          cipher: aes256-ctr  # Ensure the same encryption method is used
           script: |
             cd dowa/
             docker-compose pull
             docker-compose up -d --force-recreate
-
+      
+      
       - name: Setup K6
         run: |
           curl -LO https://github.com/k6io/k6/releases/download/v0.44.0/k6-v0.44.0-linux-amd64.tar.gz
