@@ -23,7 +23,7 @@ FROM nginx:alpine
 COPY --from=build /app/dist/calculator-frontend /usr/share/nginx/html
 
 # Copy the custom nginx.conf file
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY docker/nginx.conf /etc/nginx/nginx.conf
 
 # Eksponer port 80
 EXPOSE 80
