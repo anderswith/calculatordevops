@@ -20,7 +20,7 @@ RUN npm run build
 FROM nginx:alpine
 
 # Kopier de byggede filer fra build-stadiet
-COPY --from=build /app/calculator-frontend-main/ /usr/share/nginx/html
+COPY --from=build /app/calculator-frontend-main /usr/share/nginx/html
 
 # Eksponer port 80
 EXPOSE 80
